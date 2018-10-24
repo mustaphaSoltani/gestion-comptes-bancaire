@@ -31,7 +31,6 @@ public class MouvementService {
         this.compteRepository = compteRepository;
     }
 
-
     /**
      * Save a Mouvement.
      *
@@ -47,7 +46,7 @@ public class MouvementService {
         Optional<Compte> compte = compteRepository.findById(mouvement.getCompteId());
         if (compte.isPresent()) {
             mouvement.setCompte(compte.get());
-        }else  throw new GestionCteBancaireException("compte n'existe pas");
+        } else throw new GestionCteBancaireException("compte n'existe pas");
         return mouvementRepository.save(mouvement);
     }
 

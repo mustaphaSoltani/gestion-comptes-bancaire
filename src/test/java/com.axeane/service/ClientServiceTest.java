@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -19,10 +20,11 @@ import java.util.List;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 
+
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes =GestionCompteBancaireApplication.class)
 @DataJpaTest
-
+@ComponentScan("com.axeane")
 public class ClientServiceTest {
 
     @Autowired
@@ -34,11 +36,11 @@ public class ClientServiceTest {
   @Test
     public void save() throws Exception {
         Client client = new Client();
-        client.setNom("Ali");
-        client.setAdresse("omrani");
+        client.setNom("Sami");
+        client.setAdresse("aloui");
         clientService.save(client);
         Client clientResult = clientRepository.findAll().get(clientRepository.findAll().size() - 1);
-        assertThat(clientResult.getNom(), is("Ali"));
+        assertThat(clientResult.getNom(), is("Sami"));
     }
 
     @Test
@@ -108,14 +110,13 @@ public class ClientServiceTest {
         assertThat(throwException, is(false));
     }
 
-
     @Test
     public void delete() throws Exception {
         int sizeListClientBeforeDelete = clientService.findAll().size();
-        Client client = clientService.findAll().get(clientService.findAll().size() - 1);
+        Client client = clientRepository.findAll().get(clientRepository.findAll().size() - 1);
         clientService.delete(client.getId());
         int sizeListClientAfterDelete = clientService.findAll().size();
-        assertThat(sizeListClientBeforeDelete - 1, is(sizeListClientAfterDelete));
+        assertThat(sizeListClientAfterDelete, is(sizeListClientBeforeDelete-1));
     }
 
 }

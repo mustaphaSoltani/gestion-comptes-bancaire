@@ -15,7 +15,6 @@ import java.util.Set;
 @Table(name = "ax_client")
 public class Client implements Serializable {
 
-
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -23,7 +22,7 @@ public class Client implements Serializable {
     @JsonView(value = {Views.ClientView.class})
     private Long id;
 
-    @Column(name = "cin",unique = true)
+    @Column(name = "cin", unique = true)
     @JsonView(value = {Views.ClientView.class})
     private Integer cin;
 

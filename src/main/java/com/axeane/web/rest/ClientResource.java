@@ -3,11 +3,13 @@ package com.axeane.web.rest;
 import com.axeane.domain.Client;
 import com.axeane.domain.Views;
 import com.axeane.domain.util.ResponseUtil;
-//import com.axeane.service.Business.JasperCompteBusinessService;
+import com.axeane.service.Business.ExtraitCompteBancaireService;
+import com.axeane.service.Business.SendExtratMailJetService;
 import com.axeane.service.ClientService;
 import com.axeane.web.util.HeaderUtil;
 import com.fasterxml.jackson.annotation.JsonView;
-import net.sf.jasperreports.engine.JRException;
+import com.mailjet.client.errors.MailjetException;
+import com.mailjet.client.errors.MailjetSocketTimeoutException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -33,10 +35,13 @@ public class ClientResource {
     private static final String ENTITY_NAME = "client";
 
     private final ClientService clientService;
-    //private final JasperCompteBusinessService jasperCompteBusinessService;
-    public ClientResource(ClientService clientService) {
+    private final ExtraitCompteBancaireService extraitCompteBancaireService;
+    private final SendExtratMailJetService sendExtratMailJetService;
+
+    public ClientResource(ClientService clientService, ExtraitCompteBancaireService extraitCompteBancaireService, SendExtratMailJetService sendExtratMailJetService) {
         this.clientService = clientService;
-        //this.jasperCompteBusinessService = jasperCompteBusinessService;
+        this.extraitCompteBancaireService = extraitCompteBancaireService;
+        this.sendExtratMailJetService = sendExtratMailJetService;
     }
 
 
@@ -132,6 +137,7 @@ public class ClientResource {
         List<Client> page = clientService.getClientByNom(nom);
         return new ResponseEntity<>(page, HttpStatus.OK);
     }
+
     /**
      * GET  /clients/numC/:numCompte : get the "numCompte" client.
      *
@@ -145,6 +151,7 @@ public class ClientResource {
         Optional<Client> client = Optional.ofNullable(clientService.getClientBynNumCompte(numCompte));
         return ResponseUtil.wrapOrNotFound(client);
     }
+
     /**
      * DELETE  /clients/:id : delete the "id" client.
      *
@@ -157,8 +164,16 @@ public class ClientResource {
         clientService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
-//    @GetMapping("/extraitBancairepdf")
-//    public @ResponseBody void extraitBancairePdf(HttpServletResponse response) throws JRException {
-//        jasperCompteBusinessService.exportExtraitBancaireToPdf(response);
-//    }
+
+    @GetMapping("/extraitBancairepdf/{id}")
+    public @ResponseBody
+    void entreprisesPdf(HttpServletResponse response, @PathVariable Long id) {
+        extraitCompteBancaireService.exportextraitBancaireToPdf(response, id);
+    }
+
+    @GetMapping("/sendMail")
+    public @ResponseBody
+    void sendMail() throws MailjetSocketTimeoutException, MailjetException {
+        sendExtratMailJetService.sendExtrait();
+    }
 }

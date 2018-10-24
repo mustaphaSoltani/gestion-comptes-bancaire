@@ -3,7 +3,8 @@ package com.axeane.web.rest;
 import com.axeane.GestionCompteBancaireApplication;
 import com.axeane.domain.Client;
 import com.axeane.repository.ClientRepository;
-//import com.axeane.service.Business.JasperCompteBusinessService;
+import com.axeane.service.Business.ExtraitCompteBancaireService;
+import com.axeane.service.Business.SendExtratMailJetService;
 import com.axeane.service.ClientService;
 import com.axeane.web.errors.ExceptionTranslator;
 import com.axeane.web.rest.config.TestUtil;
@@ -12,7 +13,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -32,6 +35,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = GestionCompteBancaireApplication.class)
+@DataJpaTest
+@ComponentScan("com.axeane")
 public class ClientResourceTest {
 
     private static final String DEFAULT_NOM = "Soltani";
@@ -54,8 +59,12 @@ public class ClientResourceTest {
 
     @Autowired
     private ClientService clientService;
-//    @Autowired
-//    private JasperCompteBusinessService jasperCompteBusinessService;
+    @Autowired
+    private ExtraitCompteBancaireService extraitCompteBancaireService;
+
+    @Autowired
+    private SendExtratMailJetService sendExtratMailJetService;
+
     @Autowired
     private ClientRepository clientRepository;
 
@@ -78,7 +87,7 @@ public class ClientResourceTest {
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
-        ClientResource clientResource = new ClientResource(clientService);
+        ClientResource clientResource = new ClientResource(clientService, extraitCompteBancaireService, sendExtratMailJetService);
         this.restClientMockMvc = MockMvcBuilders.standaloneSetup(clientResource)
                 .setCustomArgumentResolvers(pageableArgumentResolver)
                 .setControllerAdvice(exceptionTranslator)

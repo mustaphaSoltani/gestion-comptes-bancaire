@@ -7,13 +7,15 @@ import org.springframework.boot.autoconfigure.liquibase.LiquibaseAutoConfigurati
 import org.springframework.boot.autoconfigure.liquibase.LiquibaseProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
 @EnableJpaRepositories
+@Configuration
 public class GestionCompteBancaireApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(GestionCompteBancaireApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(GestionCompteBancaireApplication.class, args);
+    }
 }

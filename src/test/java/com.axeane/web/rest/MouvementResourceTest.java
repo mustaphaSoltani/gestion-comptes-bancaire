@@ -1,8 +1,10 @@
 package com.axeane.web.rest;
 
 import com.axeane.GestionCompteBancaireApplication;
+import com.axeane.domain.Compte;
 import com.axeane.domain.Mouvement;
 import com.axeane.domain.enumuration.TypeMouvementEnum;
+import com.axeane.repository.CompteRepository;
 import com.axeane.repository.MouvementRepository;
 import com.axeane.service.MouvementService;
 import com.axeane.web.errors.ExceptionTranslator;
@@ -12,7 +14,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -34,6 +38,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = GestionCompteBancaireApplication.class)
+@DataJpaTest
+@ComponentScan("com.axeane")
 public class MouvementResourceTest {
 
     private static final TypeMouvementEnum DEFAULT_TYPE_MOUVEMENT = TypeMouvementEnum.RETRAIT;
@@ -50,6 +56,9 @@ public class MouvementResourceTest {
 
     @Autowired
     private MouvementRepository mouvementRepository;
+
+    @Autowired
+    private CompteRepository compteRepository;
 
     @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
@@ -85,6 +94,8 @@ public class MouvementResourceTest {
      */
     public Mouvement createEntity(EntityManager em) {
         Mouvement mouvement = new Mouvement();
+        Compte compte=new Compte();
+        compteRepository.saveAndFlush(compte);
         mouvement.setCompteId(1L);
         mouvement.setSomme(DEFAULT_SOMME);
         mouvement.setTypeMouvement(DEFAULT_TYPE_MOUVEMENT);

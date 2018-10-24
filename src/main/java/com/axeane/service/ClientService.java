@@ -29,7 +29,6 @@ public class ClientService {
         this.compteRepository = compteRepository;
     }
 
-
     /**
      * Save a client.
      *

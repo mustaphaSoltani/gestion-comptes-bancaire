@@ -38,7 +38,6 @@ public class MouvementResource {
         this.mouvementRepository = mouvementRepository;
     }
 
-
     /**
      * POST  /mouvements : Create a new Mouvement.
      *
@@ -81,7 +80,6 @@ public class MouvementResource {
                 .body(result);
     }
 
-
     @GetMapping
     @JsonView(value = {Views.MouvementView.class})
     public ResponseEntity<List<Mouvement>> getAllClient() {
@@ -91,7 +89,7 @@ public class MouvementResource {
     }
 
     /**
-     * GET  /clients/:id : get the "id" mouvement.
+     * GET  /mouvements/:id : get the "id" mouvement.
      *
      * @param id the id of the mouvement to retrieve
      * @return the ResponseEntity with status 200 (OK) and with body the client, or with status 404 (Not Found)

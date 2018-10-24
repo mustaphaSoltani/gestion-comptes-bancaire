@@ -6,9 +6,9 @@ import java.util.Date;
 
 public class CompteModel {
     private Double somme;
- private Integer numCompte;
- private Date date;
- private TypeMouvementEnum typeMouvement;
+    private Integer numCompte;
+    private Date date;
+    private TypeMouvementEnum typeMouvement;
 
     public CompteModel(Double somme, Integer numCompte, Date date, TypeMouvementEnum typeMouvement) {
         this.somme = somme;

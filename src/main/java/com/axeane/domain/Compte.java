@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonView;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Cache;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -19,7 +20,6 @@ import java.util.Set;
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class Compte implements Serializable {
 
-
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -27,7 +27,7 @@ public class Compte implements Serializable {
     @JsonView(value = {Views.ClientView.class, Views.CompteView.class})
     private Long id;
 
-    @Column(name = "num_compte",unique = true)
+    @Column(name = "num_compte", unique = true)
     @JsonView(value = {Views.ClientView.class, Views.CompteView.class})
     private Integer numCompte;
 
@@ -40,7 +40,7 @@ public class Compte implements Serializable {
     private Long clientId;
 
     @ManyToOne
-    @JoinColumn(name="client_id")
+    @JoinColumn(name = "client_id")
     private Client client;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "compte")

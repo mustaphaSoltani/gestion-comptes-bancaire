@@ -3,6 +3,7 @@ package com.axeane.web.rest;
 import com.axeane.domain.Mouvement;
 import com.axeane.domain.Views;
 import com.axeane.domain.util.ResponseUtil;
+import com.axeane.repository.CompteRepository;
 import com.axeane.repository.MouvementRepository;
 import com.axeane.service.MouvementService;
 import com.axeane.web.util.HeaderUtil;
@@ -31,11 +32,10 @@ public class MouvementResource {
     private static final String ENTITY_NAME = "mouvement";
 
     private final MouvementService mouvementService;
-    private final MouvementRepository mouvementRepository;
 
-    public MouvementResource(MouvementService mouvementService, MouvementRepository mouvementRepository) {
+    public MouvementResource(MouvementService mouvementService) {
         this.mouvementService = mouvementService;
-        this.mouvementRepository = mouvementRepository;
+
     }
 
     /**

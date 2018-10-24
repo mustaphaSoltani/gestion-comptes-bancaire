@@ -1,4 +1,4 @@
-package com.axeane.web.rest;
+package com.axeane.web.rest.testH2;
 
 import com.axeane.GestionCompteBancaireApplication;
 import com.axeane.domain.Client;
@@ -7,6 +7,7 @@ import com.axeane.service.Business.ExtraitCompteBancaireService;
 import com.axeane.service.Business.SendExtratMailJetService;
 import com.axeane.service.ClientService;
 import com.axeane.web.errors.ExceptionTranslator;
+import com.axeane.web.rest.ClientResource;
 import com.axeane.web.rest.config.TestUtil;
 import org.junit.Before;
 import org.junit.Test;
@@ -36,7 +37,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = GestionCompteBancaireApplication.class)
 @DataJpaTest
-@ComponentScan("com.axeane")
+//@ComponentScan("com.axeane")
 public class ClientResourceTest {
 
     private static final String DEFAULT_NOM = "Soltani";

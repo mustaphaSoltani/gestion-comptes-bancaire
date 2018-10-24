@@ -113,10 +113,11 @@ public class ClientServiceTest {
     @Test
     public void delete() throws Exception {
         int sizeListClientBeforeDelete = clientService.findAll().size();
-        Client client = clientRepository.findAll().get(clientRepository.findAll().size() - 1);
-        clientService.delete(client.getId());
+        Client client = new Client();
+        clientRepository.save(client);
+        Client client1 = clientRepository.findAll().get(clientRepository.findAll().size() - 1);
+        clientService.delete(client1.getId());
         int sizeListClientAfterDelete = clientService.findAll().size();
-        assertThat(sizeListClientAfterDelete, is(sizeListClientBeforeDelete-1));
+        assertThat(sizeListClientBeforeDelete, is(sizeListClientAfterDelete));
     }
-
 }

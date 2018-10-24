@@ -34,18 +34,20 @@ public class ExtraitCompteBancaireService {
     public void exportextraitBancaireToPdf(HttpServletResponse response, Long id) {
 
         try {
-            InputStream inputStream = getClass().getResourceAsStream("/reports/report1.jrxml");
+            InputStream inputStream = getClass().getResourceAsStream("/extraitt.jrxml");
             JasperDesign jasperDesign = JRXmlLoader.load(inputStream);
             JasperReport jasperReport = JasperCompileManager.compileReport(jasperDesign);
             Map<String, Object> parametreMap = new HashMap<>();
+//
+//            Client client = new Client();
+//            client.setNom(clientService.getClientById(id).getNom());
+//            List<Client> clientModels = new ArrayList<>();
+//            clientModels.add(client);
 
-            Client client = new Client();
-            client.setNom(clientService.getClientById(id).getNom());
-            List<Client> clientModels = new ArrayList<>();
-            clientModels.add(client);
-
-            JRDataSource jrDataSource = new JRBeanCollectionDataSource(clientModels);
-            parametreMap.put("datasource", jrDataSource);
+            JRDataSource jrDataSource = new JREmptyDataSource();
+//            parametreMap.put("prenom","Mustapha");
+//            parametreMap.put("nom","Soltani");
+            //parametreMap.put("datasource", jrDataSource);
             JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parametreMap, jrDataSource);
             response.setContentType("application/pdf");
             response.setHeader("Content-disposition", "attachment; filename=report.pdf");

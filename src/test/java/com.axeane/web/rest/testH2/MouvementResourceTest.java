@@ -1,4 +1,4 @@
-package com.axeane.web.rest;
+package com.axeane.web.rest.testH2;
 
 import com.axeane.GestionCompteBancaireApplication;
 import com.axeane.domain.Compte;
@@ -8,6 +8,7 @@ import com.axeane.repository.CompteRepository;
 import com.axeane.repository.MouvementRepository;
 import com.axeane.service.MouvementService;
 import com.axeane.web.errors.ExceptionTranslator;
+import com.axeane.web.rest.MouvementResource;
 import com.axeane.web.rest.config.TestUtil;
 import org.junit.Before;
 import org.junit.Test;
@@ -79,7 +80,7 @@ public class MouvementResourceTest {
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
-        MouvementResource mouvementResource = new MouvementResource(mouvementService, mouvementRepository);
+        MouvementResource mouvementResource = new MouvementResource(mouvementService);
         this.restMouvementMockMvc = MockMvcBuilders.standaloneSetup(mouvementResource)
                 .setCustomArgumentResolvers(pageableArgumentResolver)
                 .setControllerAdvice(exceptionTranslator)

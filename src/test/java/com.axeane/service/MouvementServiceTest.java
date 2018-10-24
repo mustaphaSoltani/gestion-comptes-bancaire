@@ -51,7 +51,6 @@ public class MouvementServiceTest {
         Mouvement mouvementResult = mouvementRepository.findAll().get(mouvementRepository.findAll().size() - 1);
         assertThat(mouvementResult.getCompteId(), is(1L));
         assertThat(mouvementResult.getSomme(), is(1000D));
-
     }
 
     @Test
@@ -95,10 +94,17 @@ public class MouvementServiceTest {
     @Test
     public void delete() throws Exception {
         int sizeListMouvementBeforeDelete = mouvementService.findAll().size();
-        Mouvement mouvement = mouvementService.findAll().get(mouvementService.findAll().size() - 1);
-        mouvementService.delete(mouvement.getId());
+        Compte compte=new Compte();
+        compteRepository.saveAndFlush(compte);
+        Mouvement mouvement=new Mouvement();
+        mouvement.setCompteId(1L);
+        mouvement.setSomme(1000D);
+        mouvement.setTypeMouvement(TypeMouvementEnum.RETRAIT);
+        mouvementService.save(mouvement);
+        Mouvement mouvement1 = mouvementService.findAll().get(mouvementService.findAll().size() - 1);
+        mouvementService.delete(mouvement1.getId());
         int sizeListMouvementAfterDelete = mouvementService.findAll().size();
-        assertThat(sizeListMouvementAfterDelete - 1, is(sizeListMouvementAfterDelete));
+        assertThat(sizeListMouvementBeforeDelete, is(sizeListMouvementAfterDelete));
     }
 
 }

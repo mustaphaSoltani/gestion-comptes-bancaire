@@ -61,7 +61,7 @@ public class MouvementResource {
     /**
      * PUT  /mouvements : Updates an existing mouvement.
      *
-     * @param mouvement the client to update
+     * @param mouvement the mouvement to update
      * @return the ResponseEntity with status 200 (OK) and with body the updated mouvement,
      * or with status 400 (Bad Request) if the mouvement is not valid,
      * or with status 500 (Internal Server Error) if the mouvement couldnt be updated

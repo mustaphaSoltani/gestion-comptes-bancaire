@@ -25,7 +25,6 @@ public class MouvementService {
     private final MouvementRepository mouvementRepository;
     private final CompteRepository compteRepository;
 
-
     public MouvementService(MouvementRepository mouvementRepository, CompteRepository compteRepository) {
         this.mouvementRepository = mouvementRepository;
         this.compteRepository = compteRepository;

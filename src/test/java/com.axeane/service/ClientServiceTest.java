@@ -2,6 +2,7 @@ package com.axeane.service;
 
 import com.axeane.GestionCompteBancaireApplication;
 import com.axeane.domain.Client;
+import com.axeane.domain.Compte;
 import com.axeane.repository.ClientRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,14 +16,16 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes =GestionCompteBancaireApplication.class)
+@SpringBootTest(classes = GestionCompteBancaireApplication.class)
 @DataJpaTest
 @ComponentScan("com.axeane")
 public class ClientServiceTest {
@@ -33,8 +36,8 @@ public class ClientServiceTest {
     @Autowired
     private ClientRepository clientRepository;
 
-  @Test
-    public void save() throws Exception {
+    @Test
+    public void saveTest() throws Exception {
         Client client = new Client();
         client.setNom("Sami");
         client.setAdresse("aloui");
@@ -44,7 +47,7 @@ public class ClientServiceTest {
     }
 
     @Test
-    public void getClientById() throws Exception {
+    public void getClientByIdTest() throws Exception {
         Client client = new Client();
         client.setNom("Bilel");
         client.setCin(123456789);
@@ -60,7 +63,7 @@ public class ClientServiceTest {
     }
 
     @Test
-    public void getClientBynom() throws Exception {
+    public void getClientByNomTest() throws Exception {
         Client client = new Client();
         client.setNom("Bilell");
         client.setCin(123456789);
@@ -76,7 +79,7 @@ public class ClientServiceTest {
     }
 
     @Test
-    public void getClientBynCin() throws Exception {
+    public void getClientBynCinTest() throws Exception {
         Client client = new Client();
         client.setNom("Bilel");
         client.setCin(1234456789);
@@ -92,7 +95,28 @@ public class ClientServiceTest {
     }
 
     @Test
-    public void findAll() throws Exception {
+    public void getClientBynNumCompteTest() throws Exception {
+        Client client = new Client();
+        client.setNom("Bilel");
+        client.setCin(145647);
+        client.setPrenom("Omrani");
+        client.setEmail("bilel@gmail.com");
+        client.setNumTel(5525254);
+        client.setAdresse("Bardo");
+        Compte comtpe = new Compte();
+        comtpe.setNumCompte(321);
+        Set<Compte> comptes=new HashSet<>();
+        comptes.add(comtpe);
+        client.setComptes(comptes);
+        clientService.save(client);
+        List<Client> listClientAfterSave = clientService.findAll();
+        Client clientSaved = clientService.getClientBynNumCompte(listClientAfterSave.get(listClientAfterSave.size() - 1).getComptes().iterator().next().getNumCompte());
+        assertThat(clientSaved.getNom(), is("Bilel"));
+        assertThat(clientSaved.getComptes().iterator().next().getNumCompte(), is(321));
+    }
+
+    @Test
+    public void findAllTest() throws Exception {
         int sizeListClientBeforeSave = clientRepository.findAll().size();
         Client client = new Client();
         client.setNom("Soltani");
@@ -111,7 +135,7 @@ public class ClientServiceTest {
     }
 
     @Test
-    public void delete() throws Exception {
+    public void deleteTest() throws Exception {
         int sizeListClientBeforeDelete = clientService.findAll().size();
         Client client = new Client();
         clientRepository.save(client);

@@ -6,6 +6,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Cache;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.HashSet;
@@ -27,6 +28,7 @@ public class Compte implements Serializable {
     @JsonView(value = {Views.ClientView.class, Views.CompteView.class})
     private Long id;
 
+    @NotNull
     @Column(name = "num_compte", unique = true)
     @JsonView(value = {Views.ClientView.class, Views.CompteView.class})
     private Integer numCompte;

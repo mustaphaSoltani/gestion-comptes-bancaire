@@ -8,6 +8,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Objects;
 
@@ -33,9 +34,10 @@ public class Mouvement implements Serializable {
 
     @Column(name = "somme")
     @JsonView(value = {Views.MouvementView.class, Views.CompteView.class})
-    private Double somme;
+    private BigDecimal somme;
 
     @Column(name = "date")
+    @Temporal(TemporalType.DATE)
     @JsonView(value = {Views.MouvementView.class, Views.CompteView.class})
     private Date date;
 
@@ -71,11 +73,11 @@ public class Mouvement implements Serializable {
         this.compte = compte;
     }
 
-    public Double getSomme() {
+    public BigDecimal getSomme() {
         return somme;
     }
 
-    public void setSomme(Double somme) {
+    public void setSomme(BigDecimal somme) {
         this.somme = somme;
     }
 
@@ -86,6 +88,7 @@ public class Mouvement implements Serializable {
     public void setDate(Date date) {
         this.date = date;
     }
+
 
     public static long getSerialVersionUID() {
         return serialVersionUID;

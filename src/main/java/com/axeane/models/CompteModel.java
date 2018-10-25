@@ -2,6 +2,7 @@ package com.axeane.models;
 
 import com.axeane.domain.enumuration.TypeMouvementEnum;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 public class CompteModel {
@@ -32,7 +33,7 @@ public class CompteModel {
         return somme;
     }
 
-    public void setSomme(Double somme) {
+    public void setSomme(BigDecimal somme) {
         this.somme = somme;
     }
 

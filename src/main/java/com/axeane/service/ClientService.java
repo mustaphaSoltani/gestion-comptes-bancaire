@@ -36,7 +36,7 @@ public class ClientService {
      * @return the persisted entity
      */
     @Transactional
-    public Client save(Client client) {
+    public Client createClient(Client client) {
         log.debug("Request to save Client : {}", client);
         client.getComptes().forEach(compte -> {
             compte.setClient(client);

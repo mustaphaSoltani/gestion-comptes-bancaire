@@ -1,16 +1,16 @@
 package com.axeane.web.rest;
 
 import com.axeane.domain.Client;
-import com.axeane.domain.Compte;
 import com.axeane.domain.Views;
 import com.axeane.domain.util.ResponseUtil;
+import com.axeane.repository.ClientRepository;
 import com.axeane.service.Business.ExtraitCompteBancaireService;
 import com.axeane.service.Business.SendExtratMailJetService;
 import com.axeane.service.ClientService;
 import com.axeane.web.util.HeaderUtil;
+import com.axeane.web.util.client.errors.MailjetSocketTimeoutException;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.mailjet.client.errors.MailjetException;
-import com.mailjet.client.errors.MailjetSocketTimeoutException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -45,7 +46,6 @@ public class ClientResource {
         this.sendExtratMailJetService = sendExtratMailJetService;
     }
 
-
     /**
      * POST  /clients : Create a new Client.
      *
@@ -60,7 +60,7 @@ public class ClientResource {
         if (client.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new client cannot already have an ID")).body(null);
         }
-        Client result = clientService.save(client);
+        Client result = clientService.createClient(client);
         return ResponseEntity.created(new URI("/api/clients/" + result.getId()))
                 .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
                 .body(result);
@@ -82,13 +82,15 @@ public class ClientResource {
         if (client.getId() == null) {
             return createClient(client);
         }
-        Client result = clientService.save(client);
+        Client result = clientService.createClient(client);
         return ResponseEntity.ok()
                 .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, client.getId().toString()))
                 .body(result);
     }
 
-
+    /**
+     * GET  /clients get All clients.
+     */
     @GetMapping
     @JsonView(value = {Views.ClientView.class})
     public ResponseEntity<List<Client>> getAllClient() {
@@ -164,16 +166,21 @@ public class ClientResource {
         clientService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
-
+    /**
+     * Get  /extraitBancairepdf/:numC : get the  extrait compte.
+     *
+     * @param numC the id of the client to delete
+     */
     @GetMapping("/extraitBancairepdf/{numC}")
     public @ResponseBody
     void entreprisesPdf(HttpServletResponse response, @PathVariable Integer numC) {
+        log.debug("REST request to Extrait file pdf : {}", numC);
         extraitCompteBancaireService.exportextraitBancaireToPdf(response, numC);
     }
 
-    @GetMapping("/sendMail")
+    @PostMapping("/sendMail")
     public @ResponseBody
-    void sendMail() throws MailjetSocketTimeoutException, MailjetException {
+     void sendMail() throws IOException, MailjetSocketTimeoutException, MailjetException, com.axeane.web.util.client.errors.MailjetException {
         sendExtratMailJetService.sendExtrait();
     }
 }

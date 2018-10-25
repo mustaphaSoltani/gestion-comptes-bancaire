@@ -3,6 +3,9 @@ package com.axeane.domain;
 import com.fasterxml.jackson.annotation.JsonView;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Objects;
@@ -22,14 +25,17 @@ public class Client implements Serializable {
     @JsonView(value = {Views.ClientView.class})
     private Long id;
 
-    @Column(name = "cin", unique = true)
+    @NotNull
+    @Column(name = "cin", unique = true, length = 8)
     @JsonView(value = {Views.ClientView.class})
     private Integer cin;
 
+    @Size(max = 50)
     @Column(name = "nom")
     @JsonView(value = {Views.ClientView.class})
     private String nom;
 
+    @Size(max = 50)
     @Column(name = "prenom")
     @JsonView(value = {Views.ClientView.class})
     private String prenom;
@@ -38,11 +44,13 @@ public class Client implements Serializable {
     @JsonView(value = {Views.ClientView.class})
     private String adresse;
 
+    @Email
+    @Size(min = 5, max = 100)
     @Column(name = "email")
     @JsonView(value = {Views.ClientView.class})
     private String email;
 
-    @Column(name = "num_tel")
+    @Column(name = "num_tel", length = 8)
     @JsonView(value = {Views.ClientView.class})
     private Integer numTel;
 

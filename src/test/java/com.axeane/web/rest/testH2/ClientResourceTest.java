@@ -37,13 +37,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = GestionCompteBancaireApplication.class)
 @DataJpaTest
-//@ComponentScan("com.axeane")
+@ComponentScan("com.axeane")
 public class ClientResourceTest {
 
-    private static final String DEFAULT_NOM = "Soltani";
-    private static final String UPDATED_NOM = "AAAA";
+    private static final String DEFAULT_NOM1 = "Soltani";
+    private static final String UPDATED_NOM1 = "AAAA";
 
-    private static final String DEFAULT_PRENOM = "Mustapha";
+    private static final String DEFAULT_PRENOM1 = "Mustapha";
     private static final String UPDATED_PRENOM = "BBBB";
 
     private static final String DEFAULT_ADRESSE = "Bardo";
@@ -88,7 +88,7 @@ public class ClientResourceTest {
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
-        ClientResource clientResource = new ClientResource(clientService, extraitCompteBancaireService, sendExtratMailJetService);
+        ClientResource clientResource = new ClientResource(clientService,clientRepository, extraitCompteBancaireService, sendExtratMailJetService);
         this.restClientMockMvc = MockMvcBuilders.standaloneSetup(clientResource)
                 .setCustomArgumentResolvers(pageableArgumentResolver)
                 .setControllerAdvice(exceptionTranslator)
@@ -103,9 +103,9 @@ public class ClientResourceTest {
      */
     public Client createEntity(EntityManager em) {
         Client client = new Client();
-        client.setNom(DEFAULT_NOM);
+        client.setNom(DEFAULT_NOM1);
         client.setCin(DEFAULT_CIN);
-        client.setPrenom(DEFAULT_PRENOM);
+        client.setPrenom(DEFAULT_PRENOM1);
         client.setEmail(DEFAULT_EMAIL);
         client.setNumTel(DEFAULT_NUM_TEL);
         client.setAdresse(DEFAULT_ADRESSE);
@@ -129,8 +129,8 @@ public class ClientResourceTest {
         List<Client> clientList = clientRepository.findAll();
         assertThat(clientList).hasSize(databaseSizeBeforeCreate + 1);
         Client testClient = clientList.get(clientList.size() - 1);
-        assertThat(testClient.getNom()).isEqualTo(DEFAULT_NOM);
-        assertThat(testClient.getPrenom()).isEqualTo(DEFAULT_PRENOM);
+        assertThat(testClient.getNom()).isEqualTo(DEFAULT_NOM1);
+        assertThat(testClient.getPrenom()).isEqualTo(DEFAULT_PRENOM1);
         assertThat(testClient.getCin()).isEqualTo(DEFAULT_CIN);
         assertThat(testClient.getEmail()).isEqualTo(DEFAULT_EMAIL);
         assertThat(testClient.getAdresse()).isEqualTo(DEFAULT_ADRESSE);
@@ -148,7 +148,7 @@ public class ClientResourceTest {
         Client updatedClient = clientRepository.getClientById(client.getId());
         updatedClient.setEmail(UPDATED_EMAIL);
         updatedClient.setNumTel(UPDATED_NUM_TEL);
-        updatedClient.setNom(UPDATED_NOM);
+        updatedClient.setNom(UPDATED_NOM1);
         updatedClient.setPrenom(UPDATED_PRENOM);
         updatedClient.setAdresse(UPDATED_ADRESSE);
         updatedClient.setCin(UPDATED_CIN);
@@ -164,7 +164,7 @@ public class ClientResourceTest {
         Client testClient = clientList.get(clientList.size() - 1);
         assertThat(testClient.getNumTel()).isEqualTo(UPDATED_NUM_TEL);
         assertThat(testClient.getEmail()).isEqualTo(UPDATED_EMAIL);
-        assertThat(testClient.getNom()).isEqualTo(UPDATED_NOM);
+        assertThat(testClient.getNom()).isEqualTo(UPDATED_NOM1);
         assertThat(testClient.getPrenom()).isEqualTo(UPDATED_PRENOM);
         assertThat(testClient.getCin()).isEqualTo(UPDATED_CIN);
         assertThat(testClient.getAdresse()).isEqualTo(UPDATED_ADRESSE);
@@ -179,10 +179,10 @@ public class ClientResourceTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .andExpect(jsonPath("$.[*].id").value(hasItem(clientSaved.getId().intValue())))
-                .andExpect(jsonPath("$.[*].nom").value(hasItem(DEFAULT_NOM)))
+                .andExpect(jsonPath("$.[*].nom").value(hasItem(DEFAULT_NOM1)))
                 .andExpect(jsonPath("$.[*].numTel").value(hasItem(DEFAULT_NUM_TEL)))
                 .andExpect(jsonPath("$.[*].email").value(hasItem(DEFAULT_EMAIL)))
-                .andExpect(jsonPath("$.[*].prenom").value(hasItem(DEFAULT_PRENOM)))
+                .andExpect(jsonPath("$.[*].prenom").value(hasItem(DEFAULT_PRENOM1)))
                 .andExpect(jsonPath("$.[*].adresse").value(hasItem(DEFAULT_ADRESSE)))
                 .andExpect(jsonPath("$.[*].cin").value(hasItem(DEFAULT_CIN)))
         ;
@@ -200,8 +200,8 @@ public class ClientResourceTest {
                 .andExpect(jsonPath("$.numTel").value(DEFAULT_NUM_TEL))
                 .andExpect(jsonPath("$.email").value(DEFAULT_EMAIL))
                 .andExpect(jsonPath("$.adresse").value(DEFAULT_ADRESSE))
-                .andExpect(jsonPath("$.nom").value(DEFAULT_NOM))
-                .andExpect(jsonPath("$.prenom").value(DEFAULT_PRENOM));
+                .andExpect(jsonPath("$.nom").value(DEFAULT_NOM1))
+                .andExpect(jsonPath("$.prenom").value(DEFAULT_PRENOM1));
     }
 
     @Test

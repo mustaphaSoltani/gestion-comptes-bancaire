@@ -91,9 +91,8 @@ public class ClientService {
         log.debug("Request to get Client : {}", numCompte);
 
         Compte compte = compteRepository.findByNumCompte(numCompte);
-        return clientRepository.getClientByComptes(compte.getNumCompte());
+        return clientRepository.getClientByComptes(compte);
     }
-
     /**
      * Get all the Client.
      *

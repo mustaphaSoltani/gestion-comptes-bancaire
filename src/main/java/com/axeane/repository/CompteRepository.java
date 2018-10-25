@@ -10,7 +10,6 @@ import javax.transaction.Transactional;
  * Spring Data JPA repository for the Proprietaire entity.
  */
 @Repository
-@Transactional
 public interface CompteRepository extends JpaRepository<Compte, Long> {
     public Compte getCompteByNumCompte(Integer numCompte);
 

@@ -1,6 +1,7 @@
 package com.axeane.repository;
 
 import com.axeane.domain.Client;
+import com.axeane.domain.Compte;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -12,7 +13,6 @@ import java.util.List;
  * Spring Data JPA repository for the Proprietaire entity.
  */
 @Repository
-@Transactional
 public interface ClientRepository extends JpaRepository<Client, Long> {
     public Client getClientByNom(String nom);
 
@@ -20,7 +20,7 @@ public interface ClientRepository extends JpaRepository<Client, Long> {
 
     public Client getClientById(Long id);
 
-    public Client getClientByComptes(Integer numCompte);
+    public Client getClientByComptes(Compte c);
 
     public List<Client> getAllByNom(String nom);
 

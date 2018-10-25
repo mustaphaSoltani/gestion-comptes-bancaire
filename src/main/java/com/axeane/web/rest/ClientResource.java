@@ -1,6 +1,7 @@
 package com.axeane.web.rest;
 
 import com.axeane.domain.Client;
+import com.axeane.domain.Compte;
 import com.axeane.domain.Views;
 import com.axeane.domain.util.ResponseUtil;
 import com.axeane.service.Business.ExtraitCompteBancaireService;
@@ -145,13 +146,12 @@ public class ClientResource {
      * @return the ResponseEntity with status 200 (OK) and with body the client, or with status 404 (Not Found)
      */
     @GetMapping("numCpte/{numCompte}")
-    @JsonView(value = {Views.ClientView.class, Views.CompteView.class})
+    @JsonView(value = Views.ClientView.class)
     public ResponseEntity getClientBynumCompte(@PathVariable Integer numCompte) {
         log.debug("REST request to get Client : {}", numCompte);
         Optional<Client> client = Optional.ofNullable(clientService.getClientBynNumCompte(numCompte));
         return ResponseUtil.wrapOrNotFound(client);
     }
-
     /**
      * DELETE  /clients/:id : delete the "id" client.
      *
@@ -165,10 +165,10 @@ public class ClientResource {
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 
-    @GetMapping("/extraitBancairepdf/{id}")
+    @GetMapping("/extraitBancairepdf/{numC}")
     public @ResponseBody
-    void entreprisesPdf(HttpServletResponse response, @PathVariable Long id) {
-        extraitCompteBancaireService.exportextraitBancaireToPdf(response, id);
+    void entreprisesPdf(HttpServletResponse response, @PathVariable Integer numC) {
+        extraitCompteBancaireService.exportextraitBancaireToPdf(response, numC);
     }
 
     @GetMapping("/sendMail")

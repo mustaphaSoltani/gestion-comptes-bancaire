@@ -3,31 +3,31 @@
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
-	<field name="code" class="java.lang.String"/>
-	<field name="matriculeFiscale" class="java.lang.String"/>
-	<field name="raisonSocial" class="java.lang.String"/>
-	<field name="adresse" class="java.lang.String"/>
+	<field name="date" class="java.lang.String"/>
+	<field name="typeMouvement" class="java.lang.String"/>
+	<field name="somme" class="java.lang.String"/>
+	<field name="total" class="java.lang.String"/>
+	<field name="nom" class="java.lang.String"/>
+	<field name="num" class="java.lang.String"/>
+	<field name="prenom" class="java.lang.String"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="64" splitType="Stretch"/>
-	</title>
-	<pageHeader>
-		<band height="49" splitType="Stretch">
+		<band height="64" splitType="Stretch">
 			<staticText>
-				<reportElement x="27" y="0" width="280" height="47" uuid="36a96abd-969f-4bdc-9472-057cc22e61e9"/>
+				<reportElement x="37" y="17" width="280" height="47" uuid="36a96abd-969f-4bdc-9472-057cc22e61e9"/>
 				<textElement>
 					<font fontName="Algerian" size="24"/>
 				</textElement>
 				<text><![CDATA[Extrait Bancaire]]></text>
 			</staticText>
 		</band>
-	</pageHeader>
-	<columnHeader>
-		<band height="58" splitType="Stretch">
+	</title>
+	<pageHeader>
+		<band height="69" splitType="Stretch">
 			<staticText>
-				<reportElement mode="Opaque" x="3" y="26" width="133" height="32" backcolor="#CCFFFF" uuid="d85c5e4b-e35a-4679-86f5-03ea5aae4175"/>
+				<reportElement mode="Opaque" x="236" y="0" width="319" height="32" backcolor="#CCCCCC" uuid="2ed1ee50-0db2-43a1-8582-9e693a113769"/>
 				<box>
 					<pen lineColor="#CCCCCC"/>
 					<topPen lineWidth="0.5" lineColor="#CCCCCC"/>
@@ -38,10 +38,10 @@
 				<textElement textAlignment="Justified" verticalAlignment="Top">
 					<font size="14" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Date]]></text>
+				<text><![CDATA[ Client:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="272" y="26" width="142" height="32" backcolor="#CCFFFF" uuid="f81b229d-73d3-47cf-8294-9b4fc4de1953"/>
+				<reportElement mode="Opaque" x="236" y="32" width="319" height="32" backcolor="#CCCCCC" uuid="c6878cac-b22f-40ef-a654-a28e4bfe5a08"/>
 				<box>
 					<pen lineColor="#CCCCCC"/>
 					<topPen lineWidth="0.5" lineColor="#CCCCCC"/>
@@ -49,13 +49,57 @@
 					<bottomPen lineWidth="0.5" lineColor="#CCCCCC"/>
 					<rightPen lineWidth="0.5" lineColor="#CCCCCC"/>
 				</box>
-				<textElement textAlignment="Center">
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ N° Compte]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="379" y="32" width="100" height="20" uuid="ceed25c5-270a-4cb9-b66c-f38ef51e14d7"/>
+				<textFieldExpression><![CDATA[$F{num}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="379" y="0" width="100" height="20" uuid="97be823d-e2f0-4bb0-a846-08d77aa9ee70"/>
+				<textFieldExpression><![CDATA[$F{nom}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="455" y="0" width="100" height="20" uuid="ae1cc97a-8303-494e-a386-0034aadc57d8"/>
+				<textFieldExpression><![CDATA[$F{prenom}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="58" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="26" width="136" height="32" backcolor="#CCCCCC" uuid="d85c5e4b-e35a-4679-86f5-03ea5aae4175"/>
+				<box>
+					<pen lineColor="#CCCCCC"/>
+					<topPen lineWidth="0.5" lineColor="#CCCCCC"/>
+					<leftPen lineWidth="0.5" lineColor="#CCCCCC"/>
+					<bottomPen lineWidth="0.5" lineColor="#CCCCCC"/>
+					<rightPen lineWidth="0.5" lineColor="#CCCCCC"/>
+				</box>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ Date]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="272" y="26" width="142" height="32" backcolor="#CCCCCC" uuid="f81b229d-73d3-47cf-8294-9b4fc4de1953"/>
+				<box>
+					<pen lineColor="#CCCCCC"/>
+					<topPen lineWidth="0.5" lineColor="#CCCCCC"/>
+					<leftPen lineWidth="0.5" lineColor="#CCCCCC"/>
+					<bottomPen lineWidth="0.5" lineColor="#CCCCCC"/>
+					<rightPen lineWidth="0.5" lineColor="#CCCCCC"/>
+				</box>
+				<textElement>
 					<font size="14" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Somme]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="414" y="26" width="141" height="32" backcolor="#CCFFFF" uuid="3f22e477-5e38-4e05-a050-c9b5d945543a"/>
+				<reportElement mode="Opaque" x="414" y="26" width="141" height="32" backcolor="#CCCCCC" uuid="3f22e477-5e38-4e05-a050-c9b5d945543a"/>
 				<box>
 					<pen lineColor="#CCCCCC"/>
 					<topPen lineWidth="0.5" lineColor="#CCCCCC"/>
@@ -63,13 +107,13 @@
 					<bottomPen lineWidth="0.5" lineColor="#CCCCCC"/>
 					<rightPen lineWidth="0.5" lineColor="#CCCCCC"/>
 				</box>
-				<textElement textAlignment="Center">
+				<textElement>
 					<font size="16" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Total]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="133" y="26" width="139" height="32" backcolor="#CCFFFF" uuid="3e3ac700-07fc-410e-b164-4ddfd2a72fcc"/>
+				<reportElement mode="Opaque" x="133" y="26" width="139" height="32" backcolor="#CCCCCC" uuid="3e3ac700-07fc-410e-b164-4ddfd2a72fcc"/>
 				<box>
 					<pen lineColor="#CCCCCC"/>
 					<topPen lineWidth="0.5" lineColor="#CCCCCC"/>
@@ -77,30 +121,30 @@
 					<bottomPen lineWidth="0.5" lineColor="#CCCCCC"/>
 					<rightPen lineWidth="0.5" lineColor="#CCCCCC"/>
 				</box>
-				<textElement textAlignment="Center">
+				<textElement>
 					<font size="14" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Type de Mouvement]]></text>
+				<text><![CDATA[Type Mouvement]]></text>
 			</staticText>
 		</band>
 	</columnHeader>
 	<detail>
 		<band height="38" splitType="Stretch">
 			<textField>
-				<reportElement x="0" y="0" width="133" height="38" uuid="ad7652ff-c5ce-454f-9339-1c8880652597"/>
-				<textFieldExpression><![CDATA[$F{nom}]]></textFieldExpression>
+				<reportElement x="3" y="0" width="133" height="38" uuid="ad7652ff-c5ce-454f-9339-1c8880652597"/>
+				<textFieldExpression><![CDATA[$F{date}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="136" y="0" width="100" height="20" uuid="be2681e3-26c9-4a7f-a1d0-33f52544c426"/>
-				<textFieldExpression><![CDATA[$F{prenom}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{typeMouvement}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="436" y="0" width="100" height="20" uuid="43cb30e7-4c2d-492c-ba92-ef0d149cc674"/>
-				<textFieldExpression><![CDATA[$F{raisonSocial}]]></textFieldExpression>
+				<reportElement x="414" y="0" width="100" height="20" uuid="43cb30e7-4c2d-492c-ba92-ef0d149cc674"/>
+				<textFieldExpression><![CDATA[$F{total}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="289" y="0" width="100" height="20" uuid="93d282ca-ee4b-427b-8cfc-4ff2e80f2c7a"/>
-				<textFieldExpression><![CDATA[$F{adresse}]]></textFieldExpression>
+				<reportElement x="279" y="0" width="100" height="20" uuid="93d282ca-ee4b-427b-8cfc-4ff2e80f2c7a"/>
+				<textFieldExpression><![CDATA[$F{somme}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

@@ -88,7 +88,7 @@ public class ClientResourceTest {
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
-        ClientResource clientResource = new ClientResource(clientService,clientRepository, extraitCompteBancaireService, sendExtratMailJetService);
+        ClientResource clientResource = new ClientResource(clientService, extraitCompteBancaireService, sendExtratMailJetService);
         this.restClientMockMvc = MockMvcBuilders.standaloneSetup(clientResource)
                 .setCustomArgumentResolvers(pageableArgumentResolver)
                 .setControllerAdvice(exceptionTranslator)

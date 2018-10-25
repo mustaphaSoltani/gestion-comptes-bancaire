@@ -27,8 +27,10 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
+import java.util.function.BiConsumer;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
@@ -46,11 +48,11 @@ public class MouvementResourceTest {
     private static final TypeMouvementEnum DEFAULT_TYPE_MOUVEMENT = TypeMouvementEnum.RETRAIT;
     private static final TypeMouvementEnum UPDATED_TYPE_MOUVEMENT= TypeMouvementEnum.RETRAIT;
 
-    private static final Double DEFAULT_SOMME = 200.00;
-    private static final Double UPDATED_SOMME = 300.00;
+    private static final BigDecimal DEFAULT_SOMME = new BigDecimal(200);
+    private static final BigDecimal UPDATED_SOMME = new BigDecimal(300);
 
-    private static final Date DEFAULT_DATE = new Date(2018-12-12);
-    private static final Date UPDATED_DATE = new Date(2018-12-12);
+    private static final Date DEFAULT_DATE = new Date();
+    private static final Date UPDATED_DATE = new Date();
 
     @Autowired
     private MouvementService mouvementService;

@@ -17,6 +17,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,7 +45,7 @@ public class MouvementServiceTest {
         Compte compte=new Compte();
         compteRepository.saveAndFlush(compte);
         mouvement.setCompteId(1L);
-        mouvement.setSomme(1000D);
+        mouvement.setSomme(new BigDecimal(1000));
         mouvement.setTypeMouvement(TypeMouvementEnum.RETRAIT);
 
         mouvementService.save(mouvement);
@@ -59,7 +60,7 @@ public class MouvementServiceTest {
         compteRepository.saveAndFlush(compte);
         Mouvement mouvement=new Mouvement();
         mouvement.setCompteId(1L);
-        mouvement.setSomme(1000D);
+        mouvement.setSomme(new BigDecimal(1000));
         mouvement.setTypeMouvement(TypeMouvementEnum.RETRAIT);
         mouvementService.save(mouvement);
         List<Mouvement> listMouvementAfterSave = mouvementService.findAll();
@@ -75,7 +76,7 @@ public class MouvementServiceTest {
         compteRepository.saveAndFlush(compte);
         Mouvement mouvement=new Mouvement();
         mouvement.setCompteId(1L);
-        mouvement.setSomme(1000D);
+        mouvement.setSomme(new BigDecimal(1000));
         mouvement.setTypeMouvement(TypeMouvementEnum.RETRAIT);
 
         List<Mouvement> listMouvementAfterSave = new ArrayList<>();
@@ -98,7 +99,7 @@ public class MouvementServiceTest {
         compteRepository.saveAndFlush(compte);
         Mouvement mouvement=new Mouvement();
         mouvement.setCompteId(1L);
-        mouvement.setSomme(1000D);
+        mouvement.setSomme(new BigDecimal(1000));
         mouvement.setTypeMouvement(TypeMouvementEnum.RETRAIT);
         mouvementService.save(mouvement);
         Mouvement mouvement1 = mouvementService.findAll().get(mouvementService.findAll().size() - 1);

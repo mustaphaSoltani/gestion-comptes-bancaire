@@ -41,7 +41,7 @@ public class ClientServiceTest {
         Client client = new Client();
         client.setNom("Sami");
         client.setAdresse("aloui");
-        clientService.save(client);
+        clientService.createClient(client);
         Client clientResult = clientRepository.findAll().get(clientRepository.findAll().size() - 1);
         assertThat(clientResult.getNom(), is("Sami"));
     }
@@ -56,7 +56,7 @@ public class ClientServiceTest {
         client.setNumTel(5525254);
         client.setAdresse("Bardo");
 
-        clientService.save(client);
+        clientService.createClient(client);
         List<Client> listClientAfterSave = clientService.findAll();
         Client clientSaved = clientService.getClientById(listClientAfterSave.get(listClientAfterSave.size() - 1).getId());
         assertThat(clientSaved.getNom(), is("Bilel"));
@@ -72,7 +72,7 @@ public class ClientServiceTest {
         client.setNumTel(5525254);
         client.setAdresse("Bardo");
 
-        clientService.save(client);
+        clientService.createClient(client);
         List<Client> listClientAfterSave = clientService.findAll();
         List<Client> clientSaved = clientService.getClientByNom(listClientAfterSave.get(listClientAfterSave.size() - 1).getNom());
         assertThat(clientSaved.get(listClientAfterSave.size() - 1).getNom(), is("Bilell"));
@@ -88,7 +88,7 @@ public class ClientServiceTest {
         client.setNumTel(5525254);
         client.setAdresse("Bardo");
 
-        clientService.save(client);
+        clientService.createClient(client);
         List<Client> listClientAfterSave = clientService.findAll();
         Client clientSaved = clientService.getClientBynCin(listClientAfterSave.get(listClientAfterSave.size() - 1).getCin());
         assertThat(clientSaved.getNom(), is("Bilel"));
@@ -108,7 +108,7 @@ public class ClientServiceTest {
         Set<Compte> comptes=new HashSet<>();
         comptes.add(comtpe);
         client.setComptes(comptes);
-        clientService.save(client);
+        clientService.createClient(client);
         List<Client> listClientAfterSave = clientService.findAll();
         Client clientSaved = clientService.getClientBynNumCompte(listClientAfterSave.get(listClientAfterSave.size() - 1).getComptes().iterator().next().getNumCompte());
         assertThat(clientSaved.getNom(), is("Bilel"));

@@ -56,7 +56,7 @@ public class ClientServiceTestContainer {
         Client client = new Client();
         client.setNom("Wifek");
         client.setAdresse("tunis");
-        clientService.save(client);
+        clientService.createClient(client);
         Client clientResult = clientRepository.findAll().get(clientRepository.findAll().size() - 1);
         assertThat(clientResult.getNom(), is("Wifek"));
     }

@@ -33,6 +33,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.testcontainers.containers.PostgreSQLContainer;
 
 import javax.persistence.EntityManager;
+import java.math.BigDecimal;
 import java.time.Duration;
 import java.util.Date;
 import java.util.List;
@@ -54,8 +55,8 @@ public class MouvementResourceTestContainer {
     private static final TypeMouvementEnum DEFAULT_TYPE_MOUVEMENT = TypeMouvementEnum.RETRAIT;
     private static final TypeMouvementEnum UPDATED_TYPE_MOUVEMENT= TypeMouvementEnum.RETRAIT;
 
-    private static final Double DEFAULT_SOMME = 200.00;
-    private static final Double UPDATED_SOMME = 300.00;
+    private static final BigDecimal DEFAULT_SOMME =new BigDecimal(200);
+    private static final BigDecimal UPDATED_SOMME = new BigDecimal(200);
 
     private static final Date DEFAULT_DATE = new Date(2018-12-12);
     private static final Date UPDATED_DATE = new Date(2018-12-12);

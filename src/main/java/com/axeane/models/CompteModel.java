@@ -6,11 +6,11 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 public class CompteModel {
-    private Double somme;
+    private BigDecimal somme;
     private Date date;
     private TypeMouvementEnum typeMouvement;
 
-    public CompteModel(Double somme, Date date, TypeMouvementEnum typeMouvement) {
+    public CompteModel(BigDecimal somme, Date date, TypeMouvementEnum typeMouvement) {
         this.somme = somme;
         this.date = date;
         this.typeMouvement = typeMouvement;
@@ -29,7 +29,7 @@ public class CompteModel {
         this.typeMouvement = typeMouvement;
     }
 
-    public Double getSomme() {
+    public BigDecimal getSomme() {
         return somme;
     }
 

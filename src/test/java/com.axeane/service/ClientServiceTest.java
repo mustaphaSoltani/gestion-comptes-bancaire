@@ -28,6 +28,7 @@ import static org.junit.Assert.*;
 @SpringBootTest(classes = GestionCompteBancaireApplication.class)
 @DataJpaTest
 @ComponentScan("com.axeane")
+@TestPropertySource("/application.properties")
 public class ClientServiceTest {
 
     @Autowired
@@ -41,6 +42,7 @@ public class ClientServiceTest {
         Client client = new Client();
         client.setNom("Sami");
         client.setAdresse("aloui");
+        client.setCin(12312312);
         clientService.createClient(client);
         Client clientResult = clientRepository.findAll().get(clientRepository.findAll().size() - 1);
         assertThat(clientResult.getNom(), is("Sami"));
@@ -98,14 +100,14 @@ public class ClientServiceTest {
     public void getClientBynNumCompteTest() throws Exception {
         Client client = new Client();
         client.setNom("Bilel");
-        client.setCin(145647);
+        client.setCin(14564712);
         client.setPrenom("Omrani");
         client.setEmail("bilel@gmail.com");
-        client.setNumTel(5525254);
+        client.setNumTel(55252541);
         client.setAdresse("Bardo");
         Compte comtpe = new Compte();
         comtpe.setNumCompte(321);
-        Set<Compte> comptes=new HashSet<>();
+        Set<Compte> comptes = new HashSet<>();
         comptes.add(comtpe);
         client.setComptes(comptes);
         clientService.createClient(client);
@@ -121,7 +123,7 @@ public class ClientServiceTest {
         Client client = new Client();
         client.setNom("Soltani");
         client.setAdresse("Bardo");
-
+        client.setCin(14564712);
         List<Client> listClientAfterSave = new ArrayList<>();
         boolean throwException = false;
         try {
@@ -138,6 +140,7 @@ public class ClientServiceTest {
     public void deleteTest() throws Exception {
         int sizeListClientBeforeDelete = clientService.findAll().size();
         Client client = new Client();
+        client.setCin(14564712);
         clientRepository.save(client);
         Client client1 = clientRepository.findAll().get(clientRepository.findAll().size() - 1);
         clientService.delete(client1.getId());

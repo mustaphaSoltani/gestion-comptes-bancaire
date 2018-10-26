@@ -45,7 +45,7 @@ public class Compte implements Serializable {
     @JoinColumn(name = "client_id")
     private Client client;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "compte")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "compte")
     @JsonView(value = {Views.CompteView.class})
     private Set<Mouvement> mouvements = new HashSet<>();
 

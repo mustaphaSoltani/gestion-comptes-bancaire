@@ -15,7 +15,8 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>2.0.6.RELEASE</version>
-        <relativePath/> <!-- lookup parent from repository -->
+
+        <!-- lookup parent from repository -->
     </parent>
 
     <properties>
@@ -30,27 +31,7 @@
         <liquibase-slf4j.version>2.0.0</liquibase-slf4j.version>
 
     </properties>
-    <url>https://github.com/mailjet/mailjet-apiv3-java/</url>
-    <scm>
-        <connection>scm:git:https://github.com/mailjet/mailjet-apiv3-java.git</connection>
-        <developerConnection>scm:git:https://github.com/mailjet/mailjet-apiv3-java.git</developerConnection>
-        <url>git@github.com:mailjet/mailjet-apiv3-java.git</url>
-        <tag>mailjet-client-4.2.0</tag>
-    </scm>
-    <licenses>
-        <license>
-            <name>MIT License</name>
-            <url>http://www.opensource.org/licenses/mit-license.php</url>
-        </license>
-    </licenses>
-    <developers>
-        <developer>
-            <name>Mailjet</name>
-            <email>api@mailjet.com</email>
-            <organization>Mailjet</organization>
-            <organizationUrl>http://www.mailjet.com</organizationUrl>
-        </developer>
-    </developers>
+
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -115,12 +96,7 @@
         <dependency>
             <groupId>com.mailjet</groupId>
             <artifactId>mailjet-client</artifactId>
-            <version>4.0.4</version>
-        </dependency>
-        <dependency>
-            <groupId>com.turbomanage.basic-http-client</groupId>
-            <artifactId>http-client-java</artifactId>
-            <version>0.89</version>
+            <version>4.1.1</version>
         </dependency>
         <dependency>
             <groupId>org.testcontainers</groupId>
@@ -128,6 +104,7 @@
             <version>1.8.3</version>
             <scope>test</scope>
         </dependency>
+
     </dependencies>
 
     <build>

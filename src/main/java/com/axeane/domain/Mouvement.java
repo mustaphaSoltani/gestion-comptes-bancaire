@@ -34,12 +34,12 @@ public class Mouvement implements Serializable {
 
     @Column(name = "somme")
     @JsonView(value = {Views.MouvementView.class, Views.CompteView.class})
-    private BigDecimal somme;
+    private BigDecimal somme;// validation non zero
 
     @Column(name = "date")
     @Temporal(TemporalType.DATE)
     @JsonView(value = {Views.MouvementView.class, Views.CompteView.class})
-    private Date date;
+    private Date date;// validation not null et non au passé
 
     @Transient
     @JsonProperty

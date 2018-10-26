@@ -3,14 +3,13 @@ package com.axeane.web.rest;
 import com.axeane.domain.Client;
 import com.axeane.domain.Views;
 import com.axeane.domain.util.ResponseUtil;
-import com.axeane.repository.ClientRepository;
-import com.axeane.service.Business.ExtraitCompteBancaireService;
-import com.axeane.service.Business.SendExtratMailJetService;
+import com.axeane.service.business.ExtraitCompteBancaireService;
+import com.axeane.service.business.SendExtratMailJetService;
 import com.axeane.service.ClientService;
 import com.axeane.web.util.HeaderUtil;
-import com.axeane.web.util.client.errors.MailjetSocketTimeoutException;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.mailjet.client.errors.MailjetException;
+import com.mailjet.client.errors.MailjetSocketTimeoutException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -19,16 +18,11 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
-import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Optional;
 
-
-/**
- * REST controller for managing Client.
- */
 @RestController
 @RequestMapping("/api/clients")
 public class ClientResource {
@@ -46,13 +40,6 @@ public class ClientResource {
         this.sendExtratMailJetService = sendExtratMailJetService;
     }
 
-    /**
-     * POST  /clients : Create a new Client.
-     *
-     * @param client the client to create
-     * @return the ResponseEntity with status 201 (Created) and with body the new client, or with status 400 (Bad Request) if the client has already an ID
-     * @throws URISyntaxException if the Location URI syntax is incorrect
-     */
     @PostMapping
     @JsonView(value = {Views.ClientView.class})
     public ResponseEntity<Client> createClient(@Valid @RequestBody Client client) throws URISyntaxException {
@@ -66,15 +53,6 @@ public class ClientResource {
                 .body(result);
     }
 
-    /**
-     * PUT  /clients : Updates an existing client.
-     *
-     * @param client the client to update
-     * @return the ResponseEntity with status 200 (OK) and with body the updated client,
-     * or with status 400 (Bad Request) if the client is not valid,
-     * or with status 500 (Internal Server Error) if the client couldnt be updated
-     * @throws URISyntaxException if the Location URI syntax is incorrect
-     */
     @PutMapping
     @JsonView(value = {Views.ClientView.class})
     public ResponseEntity<Client> updateClient(@Valid @RequestBody Client client) throws URISyntaxException {
@@ -88,9 +66,6 @@ public class ClientResource {
                 .body(result);
     }
 
-    /**
-     * GET  /clients get All clients.
-     */
     @GetMapping
     @JsonView(value = {Views.ClientView.class})
     public ResponseEntity<List<Client>> getAllClient() {
@@ -99,12 +74,6 @@ public class ClientResource {
         return new ResponseEntity<>(page, HttpStatus.OK);
     }
 
-    /**
-     * GET  /clients/:id : get the "id" client.
-     *
-     * @param id the id of the client to retrieve
-     * @return the ResponseEntity with status 200 (OK) and with body the client, or with status 404 (Not Found)
-     */
     @GetMapping("/{id}")
     @JsonView(value = {Views.ClientView.class})
     public ResponseEntity getClientById(@PathVariable Long id) {
@@ -113,12 +82,6 @@ public class ClientResource {
         return ResponseUtil.wrapOrNotFound(client);
     }
 
-    /**
-     * GET  /clients/:cin : get the "cin" client.
-     *
-     * @param cin the id of the client to retrieve
-     * @return the ResponseEntity with status 200 (OK) and with body the client, or with status 404 (Not Found)
-     */
     @GetMapping("cin/{cin}")
     @JsonView(value = {Views.ClientView.class})
     public ResponseEntity getClientByCin(@PathVariable Integer cin) {
@@ -127,12 +90,6 @@ public class ClientResource {
         return ResponseUtil.wrapOrNotFound(client);
     }
 
-    /**
-     * GET  /clients/:cin : get the "nom" client.
-     *
-     * @param nom the id of the client to retrieve
-     * @return the ResponseEntity with status 200 (OK) and with body the client, or with status 404 (Not Found)
-     */
     @GetMapping("nom/{nom}")
     @JsonView(value = {Views.ClientView.class})
     public ResponseEntity<List<Client>> getClientByNom(@PathVariable String nom) {
@@ -141,12 +98,6 @@ public class ClientResource {
         return new ResponseEntity<>(page, HttpStatus.OK);
     }
 
-    /**
-     * GET  /clients/numC/:numCompte : get the "numCompte" client.
-     *
-     * @param numCompte the id of the client to retrieve
-     * @return the ResponseEntity with status 200 (OK) and with body the client, or with status 404 (Not Found)
-     */
     @GetMapping("numCpte/{numCompte}")
     @JsonView(value = Views.ClientView.class)
     public ResponseEntity getClientBynumCompte(@PathVariable Integer numCompte) {
@@ -154,23 +105,14 @@ public class ClientResource {
         Optional<Client> client = Optional.ofNullable(clientService.getClientBynNumCompte(numCompte));
         return ResponseUtil.wrapOrNotFound(client);
     }
-    /**
-     * DELETE  /clients/:id : delete the "id" client.
-     *
-     * @param id the id of the client to delete
-     * @return the ResponseEntity with status 200 (OK)
-     */
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteClient(@PathVariable Long id) {
         log.debug("REST request to delete Client : {}", id);
         clientService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
-    /**
-     * Get  /extraitBancairepdf/:numC : get the  extrait compte.
-     *
-     * @param numC the id of the client to delete
-     */
+
     @GetMapping("/extraitBancairepdf/{numC}")
     public @ResponseBody
     void entreprisesPdf(HttpServletResponse response, @PathVariable Integer numC) {
@@ -180,7 +122,7 @@ public class ClientResource {
 
     @PostMapping("/sendMail")
     public @ResponseBody
-     void sendMail() throws IOException, MailjetSocketTimeoutException, MailjetException, com.axeane.web.util.client.errors.MailjetException {
+    void sendMail() throws MailjetSocketTimeoutException, MailjetException {
         sendExtratMailJetService.sendExtrait();
     }
 }

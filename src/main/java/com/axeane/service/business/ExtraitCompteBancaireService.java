@@ -1,4 +1,4 @@
-package com.axeane.service.Business;
+package com.axeane.service.business;
 
 import com.axeane.domain.Client;
 import com.axeane.domain.Compte;

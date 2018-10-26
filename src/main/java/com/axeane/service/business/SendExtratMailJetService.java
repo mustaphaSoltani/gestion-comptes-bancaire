@@ -1,23 +1,22 @@
-package com.axeane.service.Business;
+package com.axeane.service.business;
 
-import com.axeane.web.util.client.ClientOptions;
-import com.axeane.web.util.client.MailjetClient;
-import com.axeane.web.util.client.MailjetRequest;
-import com.axeane.web.util.client.MailjetResponse;
-import com.axeane.web.util.client.errors.MailjetException;
-import com.axeane.web.util.client.errors.MailjetRateLimitException;
-import com.axeane.web.util.client.errors.MailjetServerException;
-import com.axeane.web.util.client.errors.MailjetSocketTimeoutException;
-import com.axeane.web.util.client.resource.Emailv31;
+import com.axeane.domain.Mail;
+import com.mailjet.client.ClientOptions;
+import com.mailjet.client.MailjetClient;
+import com.mailjet.client.MailjetRequest;
+import com.mailjet.client.MailjetResponse;
+import com.mailjet.client.errors.MailjetException;
+import com.mailjet.client.errors.MailjetSocketTimeoutException;
+import com.mailjet.client.resource.Emailv31;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
-
 @Service
 public class SendExtratMailJetService {
-    public void sendExtrait() throws MailjetException, MailjetSocketTimeoutException, MailjetRateLimitException, MailjetServerException, IOException {
+    private Mail sendmail;
+
+    public void sendExtrait() throws MailjetException, MailjetSocketTimeoutException {
         MailjetClient client;
         MailjetRequest email;
         MailjetResponse response;
@@ -31,7 +30,6 @@ public class SendExtratMailJetService {
                 .put(Emailv31.Message.NAME, "Envoi d'extrait bancaire")
         )
                 .put(Emailv31.Message.SUBJECT, "Envoi d'extrait bancaire")
-                //.put(Emailv31.Message.SUBJECT, encoded)
                 .put(Emailv31.Message.TEXTPART, "Dear passenger, welcome to Mailjet! May the delivery force be with you!")
                 .put(Emailv31.Message.HTMLPART, "<h3>Dear passenger, welcome to Mailjet</h3><br/>May the delivery force be with you!")
                 .put(Emailv31.Message.ATTACHMENTS, new JSONArray()
@@ -39,9 +37,9 @@ public class SendExtratMailJetService {
                                 .put("ContentType", "pdf/plain")
                                 .put("Filename", "C:/Users/User/Desktop/jasper/response.pdf")
                                 .put("Base64Content", "VGhpcyBpcyB5b3VyIGF0dGFjaGVkIGZpbGUhISEK")))
-                                .put(Emailv31.Message.TO, new JSONArray()
-                                        .put(new JSONObject()
-                                                .put(Emailv31.Message.EMAIL, "mustaphasoltani@gmail.com")));
+                .put(Emailv31.Message.TO, new JSONArray()
+                        .put(new JSONObject()
+                                .put(Emailv31.Message.EMAIL, "mustaphasoltani@gmail.com")));
 
         email = new MailjetRequest(Emailv31.resource).property(Emailv31.MESSAGES, (new JSONArray()).put(message));
 

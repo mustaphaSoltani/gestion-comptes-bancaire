@@ -16,7 +16,6 @@ public class CompteModel {
         this.typeMouvement = typeMouvement;
     }
 
-
     public CompteModel() {
 
     }

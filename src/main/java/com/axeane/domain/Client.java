@@ -11,9 +11,6 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-/**
- * A Client
- */
 @Entity
 @Table(name = "ax_client")
 public class Client implements Serializable {

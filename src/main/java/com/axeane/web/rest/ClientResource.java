@@ -15,7 +15,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.net.URI;
@@ -36,12 +35,13 @@ public class ClientResource {
 
     public ClientResource(ClientService clientService, ExtraitCompteBancaireService extraitCompteBancaireService, SendExtratMailJetService sendExtratMailJetService) {
         this.clientService = clientService;
+
         this.extraitCompteBancaireService = extraitCompteBancaireService;
         this.sendExtratMailJetService = sendExtratMailJetService;
     }
 
     @PostMapping
-    @JsonView(value = {Views.ClientView.class})
+    @JsonView(value = {Views.ClientView.class,Views.CompteView.class})
     public ResponseEntity<Client> createClient(@Valid @RequestBody Client client) throws URISyntaxException {
         log.debug("REST request to save Client : {}", client);
         if (client.getId() != null) {
@@ -115,9 +115,9 @@ public class ClientResource {
 
     @GetMapping("/extraitBancairepdf/{numC}")
     public @ResponseBody
-    void entreprisesPdf(HttpServletResponse response, @PathVariable Integer numC) {
-        log.debug("REST request to Extrait file pdf : {}", numC);
-        extraitCompteBancaireService.exportextraitBancaireToPdf(response, numC);
+    void entreprisesPdf(HttpServletResponse response,@PathVariable Integer numC) {
+        log.debug("REST request to Extrait file pdf : {}");
+        extraitCompteBancaireService.exportextraitBancaireToPdf(response,numC);
     }
 
     @PostMapping("/sendMail")

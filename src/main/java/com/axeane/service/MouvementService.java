@@ -4,7 +4,7 @@ import com.axeane.domain.Compte;
 import com.axeane.domain.Mouvement;
 import com.axeane.repository.CompteRepository;
 import com.axeane.repository.MouvementRepository;
-import com.axeane.service.Exception.GestionCteBancaireException;
+import com.axeane.service.exception.GestionCteBancaireException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -43,9 +43,10 @@ public class MouvementService {
     }
 
     @Transactional(readOnly = true)
-    public List<Mouvement> findAll() {// get mouvement by compte
-        log.debug("Request to get all Mouvements");
-        return mouvementRepository.findAll();
+    public List<Mouvement> findAllMouvementByCompte(Integer numC) {// get mouvement by compte
+        log.debug("Request to get all Mouvements for Compte n°:",numC);
+        Compte compte=compteRepository.findByNumCompte(numC);
+        return mouvementRepository.findAllByCompte(compte);
     }
 
     @Transactional(readOnly = true)

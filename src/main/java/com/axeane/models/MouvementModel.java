@@ -5,18 +5,18 @@ import com.axeane.domain.enumuration.TypeMouvementEnum;
 import java.math.BigDecimal;
 import java.util.Date;
 
-public class CompteModel {
+public class MouvementModel {
     private BigDecimal somme;
     private Date date;
     private TypeMouvementEnum typeMouvement;
 
-    public CompteModel(BigDecimal somme, Date date, TypeMouvementEnum typeMouvement) {
+    public MouvementModel(BigDecimal somme, Date date, TypeMouvementEnum typeMouvement) {
         this.somme = somme;
         this.date = date;
         this.typeMouvement = typeMouvement;
     }
 
-    public CompteModel() {
+    public MouvementModel() {
 
     }
 

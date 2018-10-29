@@ -22,11 +22,11 @@ public class SendExtratMailJetService {
         MailjetResponse response;
 
         // Note how we set the version to v3.1 using ClientOptions
-        client = new MailjetClient("cbaf40b17a7417bce03a5df70a163043", "59bd260cb89b775dec4ea67d2287b831", new ClientOptions("v3.1"));
+        client = new MailjetClient("", "", new ClientOptions("v3.1"));
 
         JSONObject message = new JSONObject();
         message.put(Emailv31.Message.FROM, new JSONObject()
-                .put(Emailv31.Message.EMAIL, "komptacloud@psyscertifies.com")
+                .put(Emailv31.Message.EMAIL, "")
                 .put(Emailv31.Message.NAME, "Envoi d'extrait bancaire")
         )
                 .put(Emailv31.Message.SUBJECT, "Envoi d'extrait bancaire")
@@ -39,7 +39,7 @@ public class SendExtratMailJetService {
                                 .put("Base64Content", "VGhpcyBpcyB5b3VyIGF0dGFjaGVkIGZpbGUhISEK")))
                 .put(Emailv31.Message.TO, new JSONArray()
                         .put(new JSONObject()
-                                .put(Emailv31.Message.EMAIL, "mustaphasoltani@gmail.com")));
+                                .put(Emailv31.Message.EMAIL, "")));
 
         email = new MailjetRequest(Emailv31.resource).property(Emailv31.MESSAGES, (new JSONArray()).put(message));
 

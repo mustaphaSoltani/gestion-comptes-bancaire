@@ -26,7 +26,7 @@ public class ClientService {
     }
 
     public Client createClient(Client client) {
-        log.debug("Request to save Client : {}", client);
+        log.debug("Request to save Client : {}", client.toString());
         client.getComptes().forEach(compte -> {
             compte.setClient(client);
         });
@@ -35,25 +35,25 @@ public class ClientService {
 
     @Transactional(readOnly = true)
     public Client getClientById(Long id) {
-        log.debug("Request to get Client : {}", id);
+        log.debug("Request to get Client by id: {}", id);
         return clientRepository.getClientById(id);
     }
 
     @Transactional(readOnly = true)
     public List<Client> getClientByNom(String nom) {
-        log.debug("Request to get Client : {}", nom);
+        log.debug("Request to get Client by nom : {}", nom);
         return clientRepository.getAllByNom(nom);
     }
 
     @Transactional(readOnly = true)
     public Client getClientBynCin(Integer cin) {
-        log.debug("Request to get Client : {}", cin);
+        log.debug("Request to get Client by cin: {}", cin);
         return clientRepository.getClientByCin(cin);
     }
 
     @Transactional(readOnly = true)
     public Client getClientBynNumCompte(Integer numCompte) {
-        log.debug("Request to get Client : {}", numCompte);
+        log.debug("Request to get Client by numCompte : {}", numCompte);
 
         Compte compte = compteRepository.findByNumCompte(numCompte);
         return clientRepository.getClientByComptes(compte);

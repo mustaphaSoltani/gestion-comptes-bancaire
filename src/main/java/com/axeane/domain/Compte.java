@@ -13,9 +13,6 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-/**
- * A Compte
- */
 @Entity
 @Table(name = "ax_compte")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)

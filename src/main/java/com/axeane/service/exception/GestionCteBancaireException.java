@@ -1,4 +1,4 @@
-package com.axeane.service.Exception;
+package com.axeane.service.exception;
 
 public class GestionCteBancaireException extends RuntimeException {
     public GestionCteBancaireException(String message) {

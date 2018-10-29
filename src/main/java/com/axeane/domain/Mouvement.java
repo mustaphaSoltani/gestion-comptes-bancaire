@@ -7,14 +7,13 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
+import javax.validation.constraints.FutureOrPresent;
+import javax.validation.constraints.Positive;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Objects;
 
-/**
- * A Mouvement
- */
 @Entity
 @Table(name = "ax_mouvement")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
@@ -32,10 +31,12 @@ public class Mouvement implements Serializable {
     @JsonView(value = {Views.MouvementView.class, Views.CompteView.class})
     private TypeMouvementEnum typeMouvement;
 
+    @Positive
     @Column(name = "somme")
     @JsonView(value = {Views.MouvementView.class, Views.CompteView.class})
     private BigDecimal somme;// validation non zero
 
+    @FutureOrPresent
     @Column(name = "date")
     @Temporal(TemporalType.DATE)
     @JsonView(value = {Views.MouvementView.class, Views.CompteView.class})
@@ -127,7 +128,7 @@ public class Mouvement implements Serializable {
         return "compte{" +
                 "id=" + id +
                 ", typeMouvement='" + typeMouvement + "'" +
-                ", somme='" + somme + "'" +
+                ", somme='" + somme.intValue() + "'" +
                 ", date='" + date + "'" +
                 '}';
     }

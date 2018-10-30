@@ -59,7 +59,7 @@ public class ClientServiceTest {
         client.setAdresse("Bardo");
 
         clientService.createClient(client);
-        List<Client> listClientAfterSave = clientService.findAll();
+        List<Client> listClientAfterSave = clientService.findAllClient();
         Client clientSaved = clientService.getClientById(listClientAfterSave.get(listClientAfterSave.size() - 1).getId());
         assertThat(clientSaved.getNom(), is("Bilel"));
     }
@@ -75,7 +75,7 @@ public class ClientServiceTest {
         client.setAdresse("Bardo");
 
         clientService.createClient(client);
-        List<Client> listClientAfterSave = clientService.findAll();
+        List<Client> listClientAfterSave = clientService.findAllClient();
         List<Client> clientSaved = clientService.getClientByNom(listClientAfterSave.get(listClientAfterSave.size() - 1).getNom());
         assertThat(clientSaved.get(listClientAfterSave.size() - 1).getNom(), is("Bilell"));
     }
@@ -91,7 +91,7 @@ public class ClientServiceTest {
         client.setAdresse("Bardo");
 
         clientService.createClient(client);
-        List<Client> listClientAfterSave = clientService.findAll();
+        List<Client> listClientAfterSave = clientService.findAllClient();
         Client clientSaved = clientService.getClientBynCin(listClientAfterSave.get(listClientAfterSave.size() - 1).getCin());
         assertThat(clientSaved.getNom(), is("Bilel"));
     }
@@ -111,7 +111,7 @@ public class ClientServiceTest {
         comptes.add(comtpe);
         client.setComptes(comptes);
         clientService.createClient(client);
-        List<Client> listClientAfterSave = clientService.findAll();
+        List<Client> listClientAfterSave = clientService.findAllClient();
         Client clientSaved = clientService.getClientBynNumCompte(listClientAfterSave.get(listClientAfterSave.size() - 1).getComptes().iterator().next().getNumCompte());
         assertThat(clientSaved.getNom(), is("Bilel"));
         assertThat(clientSaved.getComptes().iterator().next().getNumCompte(), is(321));
@@ -128,7 +128,7 @@ public class ClientServiceTest {
         boolean throwException = false;
         try {
             clientRepository.save(client);
-            listClientAfterSave = clientService.findAll();
+            listClientAfterSave = clientService.findAllClient();
         } catch (Exception e) {
             throwException = true;
         }
@@ -138,13 +138,13 @@ public class ClientServiceTest {
 
     @Test
     public void deleteTest() throws Exception {
-        int sizeListClientBeforeDelete = clientService.findAll().size();
+        int sizeListClientBeforeDelete = clientService.findAllClient().size();
         Client client = new Client();
         client.setCin(14564712);
         clientRepository.save(client);
         Client client1 = clientRepository.findAll().get(clientRepository.findAll().size() - 1);
-        clientService.delete(client1.getId());
-        int sizeListClientAfterDelete = clientService.findAll().size();
+        clientService.deleteClient(client1.getId());
+        int sizeListClientAfterDelete = clientService.findAllClient().size();
         assertThat(sizeListClientBeforeDelete, is(sizeListClientAfterDelete));
     }
 }

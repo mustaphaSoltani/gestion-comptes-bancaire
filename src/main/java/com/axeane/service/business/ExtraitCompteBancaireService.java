@@ -8,6 +8,7 @@ import com.axeane.service.ClientService;
 import com.axeane.service.MouvementService;
 import com.axeane.web.rest.ClientResource;
 import net.sf.jasperreports.engine.*;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.xml.JRXmlLoader;
 import org.slf4j.Logger;
@@ -27,14 +28,11 @@ public class ExtraitCompteBancaireService {
 
     private final ClientService clientService;
     private final MouvementService mouvementService;
-    private final CompteRepository compteRepository;
 
-    public ExtraitCompteBancaireService(ClientService clientService, MouvementService mouvementService, CompteRepository compteRepository) {
+    public ExtraitCompteBancaireService(ClientService clientService, MouvementService mouvementService) {
         this.clientService = clientService;
         this.mouvementService = mouvementService;
-        this.compteRepository = compteRepository;
     }
-
 
     public void exportextraitBancaireToPdf(HttpServletResponse response, Integer numCompte) {
         try {
@@ -45,11 +43,11 @@ public class ExtraitCompteBancaireService {
 
             Client client = clientService.getClientBynNumCompte(numCompte);
 
-            List<Mouvement> mouvements=mouvementService.findAllMouvementByCompte(numCompte);
+            List<Mouvement> mouvements = mouvementService.findAllMouvementByCompte(numCompte);
 
             List<MouvementModel> mouvementModels = new ArrayList<>();
             BigDecimal solde = mouvements.iterator().next().getCompte().getSolde();
-           for (Mouvement detailsMouvement : mouvements) {
+            for (Mouvement detailsMouvement : mouvements) {
                 MouvementModel detailsModel = new MouvementModel();
                 detailsModel.setDate(detailsMouvement.getDate());
                 detailsModel.setSomme(detailsMouvement.getSomme());
@@ -76,7 +74,7 @@ public class ExtraitCompteBancaireService {
             parametreMap.put("adresse", client.getAdresse());
             parametreMap.put("email", client.getEmail());
             parametreMap.put("solde", solde);
-            parametreMap.put("datasource", jrDataSource);
+            //parametreMap.put("datasource", jrDataSource);
 
             JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parametreMap, jrDataSource);
 
@@ -85,11 +83,10 @@ public class ExtraitCompteBancaireService {
             final OutputStream outputStream = response.getOutputStream();
             JasperExportManager.exportReportToPdfStream(jasperPrint, outputStream);
         } catch (JRException ex) {
-            log.info("file listEntreprises.jrxml exception");
+            log.info("file extrait_bancaire.jrxml exception");
         } catch (IOException ex) {
-            log.info("entreprisePdf IOException");
+            log.info("extraitBancairePdf IOException");
         }
 
     }
-
 }

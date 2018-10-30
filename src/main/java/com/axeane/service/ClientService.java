@@ -60,12 +60,12 @@ public class ClientService {
     }
 
     @Transactional(readOnly = true)
-    public List<Client> findAll() {
+    public List<Client> findAllClient() {
         log.debug("Request to get all Client");
         return clientRepository.findAll();
     }
 
-    public void delete(Long id) {
+    public void deleteClient(Long id) {
         log.debug("Request to delete Client : {}", id);
         clientRepository.deleteById(id);
     }

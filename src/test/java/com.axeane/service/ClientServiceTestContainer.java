@@ -5,11 +5,11 @@ import com.axeane.domain.Client;
 import com.axeane.repository.ClientRepository;
 import org.junit.ClassRule;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.util.TestPropertyValues;
 import org.springframework.context.ApplicationContextInitializer;
-import org.junit.runner.RunWith;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.test.context.ContextConfiguration;
@@ -37,7 +37,7 @@ public class ClientServiceTestContainer {
     public static PostgreSQLContainer postgreSQLContainer =
             (PostgreSQLContainer) new PostgreSQLContainer("postgres:9.6.10")
                     .withDatabaseName("spring")
-                    .withUsername("some-postgres")
+                    .withUsername("postgres")
                     .withPassword("admin")
                     .withStartupTimeout(Duration.ofSeconds(10));
 
@@ -53,12 +53,17 @@ public class ClientServiceTestContainer {
 
     @Test
     public void save() throws Exception {
+        System.out.println("start");
         Client client = new Client();
         client.setNom("Bilel");
         client.setAdresse("tunis");
         client.setCin(78978978);
         clientService.createClient(client);
+        System.out.println("created");
+
         Client clientResult = clientRepository.findAll().get(clientRepository.findAll().size() - 1);
+        System.out.println("list");
+
         assertThat(clientResult.getNom(), is("Bilel"));
     }
 

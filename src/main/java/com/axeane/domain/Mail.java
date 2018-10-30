@@ -14,15 +14,14 @@ public class Mail { // nom non adapté
     @Size(max = 20)
     private String objet;
 
-    private String text;
+    @Size(max = 20)
+    private String message;
 
-    @NotNull
-    private String typeFile;
+    private String text;
 
     @NotNull
     private String urlFile;
 
-    @javax.validation.constraints.Email
     @NotNull
     private String email;
 
@@ -50,12 +49,12 @@ public class Mail { // nom non adapté
         this.text = text;
     }
 
-    public String getTypeFile() {
-        return typeFile;
+    public String getMessage() {
+        return message;
     }
 
-    public void setTypeFile(String typeFile) {
-        this.typeFile = typeFile;
+    public void setMessage(String message) {
+        this.message = message;
     }
 
     public String getUrlFile() {
@@ -72,5 +71,17 @@ public class Mail { // nom non adapté
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    @Override
+    public String toString() {
+        return "Mail{" +
+                "titre='" + titre + '\'' +
+                ", objet='" + objet + '\'' +
+                ", message='" + message + '\'' +
+                ", text='" + text + '\'' +
+                ", urlFile='" + urlFile + '\'' +
+                ", email='" + email + '\'' +
+                '}';
     }
 }

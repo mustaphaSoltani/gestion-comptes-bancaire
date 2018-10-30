@@ -86,7 +86,7 @@
 	<columnHeader>
 		<band height="33" splitType="Stretch">
 			<staticText>
-				<reportElement mode="Opaque" x="158" y="13" width="165" height="20" backcolor="#CCFFFF" uuid="2eebc85c-f89b-4d77-a9f1-b11bbd489bcc"/>
+				<reportElement mode="Opaque" x="158" y="13" width="165" height="20" backcolor="#CCCCCC" uuid="2eebc85c-f89b-4d77-a9f1-b11bbd489bcc"/>
 				<box>
 					<pen lineColor="#CCCCCC"/>
 					<topPen lineWidth="0.5" lineColor="#CCCCCC"/>
@@ -100,7 +100,7 @@
 				<text><![CDATA[Type de mouvement]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="0" y="13" width="158" height="20" backcolor="#CCFFFF" uuid="52ccf18e-1643-4f29-a9a7-02bc12ab1742"/>
+				<reportElement mode="Opaque" x="0" y="13" width="158" height="20" backcolor="#CCCCCC" uuid="52ccf18e-1643-4f29-a9a7-02bc12ab1742"/>
 				<box>
 					<pen lineColor="#CCCCCC"/>
 					<topPen lineWidth="0.5" lineColor="#CCCCCC"/>

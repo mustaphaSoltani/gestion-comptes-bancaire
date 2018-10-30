@@ -39,7 +39,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = GestionCompteBancaireApplication.class)
 @DataJpaTest
-@ComponentScan("com.axeane")
+@ComponentScan({"com.axeane.domain.util","com.axeane.service"})
 public class ClientResourceTest {
 
     private static final String DEFAULT_NOM1 = "Soltani";
@@ -71,14 +71,11 @@ public class ClientResourceTest {
     @Autowired
     private ClientRepository clientRepository;
 
-    @Autowired
-    private MappingJackson2HttpMessageConverter jacksonMessageConverter;
+    private MappingJackson2HttpMessageConverter jacksonMessageConverter=new MappingJackson2HttpMessageConverter();
 
-    @Autowired
-    private PageableHandlerMethodArgumentResolver pageableArgumentResolver;
+    private PageableHandlerMethodArgumentResolver pageableArgumentResolver= new PageableHandlerMethodArgumentResolver();
 
-    @Autowired
-    private ExceptionTranslator exceptionTranslator;
+    private ExceptionTranslator exceptionTranslator=new ExceptionTranslator();
 
     @Autowired
     private EntityManager em;
@@ -138,7 +135,6 @@ public class ClientResourceTest {
         clientRepository.save(client);
         int databaseSizeBeforeUpdate = clientRepository.findAll().size();
 
-        // Update the Client
         Client updatedClient = clientRepository.getClientById(client.getId());
         updatedClient.setEmail(UPDATED_EMAIL);
         updatedClient.setNumTel(UPDATED_NUM_TEL);
@@ -151,8 +147,6 @@ public class ClientResourceTest {
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
                 .content(TestUtil.convertObjectToJsonBytes(updatedClient)))
                 .andExpect(status().isOk());
-
-        // Validate the Client in the database
         List<Client> clientList = clientRepository.findAll();
         assertThat(clientList).hasSize(databaseSizeBeforeUpdate);
         Client testClient = clientList.get(clientList.size() - 1);

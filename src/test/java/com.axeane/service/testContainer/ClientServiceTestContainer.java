@@ -1,53 +1,78 @@
-package com.axeane.service;
+package com.axeane.service.testContainer;
 
 import com.axeane.GestionCompteBancaireApplication;
 import com.axeane.domain.Client;
 import com.axeane.domain.Compte;
 import com.axeane.repository.ClientRepository;
+import com.axeane.repository.CompteRepository;
+import com.axeane.service.ClientService;
+import org.junit.ClassRule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.util.TestPropertyValues;
+import org.springframework.context.ApplicationContextInitializer;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.PropertySource;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.testcontainers.containers.PostgreSQLContainer;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.*;
-
+import static org.junit.Assert.assertThat;
 
 @RunWith(SpringRunner.class)
+@ContextConfiguration(initializers = {ClientServiceTestContainer.Initializer.class})
 @SpringBootTest(classes = GestionCompteBancaireApplication.class)
-@DataJpaTest
+@TestPropertySource("/application-test-container.properties")
 @ComponentScan("com.axeane")
-@TestPropertySource("/application.properties")
-public class ClientServiceTest {
-
+public class ClientServiceTestContainer {
     @Autowired
     private ClientService clientService;
-
     @Autowired
     private ClientRepository clientRepository;
+@Autowired
+private CompteRepository compteRepository;
+    @ClassRule
+    public static PostgreSQLContainer postgreSQLContainer =
+            (PostgreSQLContainer) new PostgreSQLContainer("postgres:9.6.10")
+                    .withDatabaseName("spring")
+                    .withUsername("postgres")
+                    .withPassword("admin")
+                    .withStartupTimeout(Duration.ofSeconds(10));
 
-    @Test
-    public void saveTest() throws Exception {
-        Client client = new Client();
-        client.setNom("Sami");
-        client.setAdresse("aloui");
-        client.setCin(12312312);
-        clientService.createClient(client);
-        Client clientResult = clientRepository.findAll().get(clientRepository.findAll().size() - 1);
-        assertThat(clientResult.getNom(), is("Sami"));
+    public static class Initializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {
+        public void initialize(ConfigurableApplicationContext configurableApplicationContext) {
+            TestPropertyValues.of(
+                    "spring.datasource.url=" + postgreSQLContainer.getJdbcUrl(),
+                    "spring.datasource.username=" + postgreSQLContainer.getUsername(),
+                    "spring.datasource.password=" + postgreSQLContainer.getPassword()
+            ).applyTo(configurableApplicationContext.getEnvironment());
+        }
     }
 
+    @Test
+    public void saveClientTest() throws Exception {
+        System.out.println("start");
+        Client client = new Client();
+        client.setNom("Bilel");
+        client.setAdresse("tunis");
+        client.setCin(78978978);
+        clientService.createClient(client);
+        System.out.println("created");
+
+        Client clientResult = clientRepository.findAll().get(clientRepository.findAll().size() - 1);
+        System.out.println("list");
+        assertThat(clientResult.getNom(), is("Bilel"));
+    }
     @Test
     public void getClientByIdTest() throws Exception {
         Client client = new Client();

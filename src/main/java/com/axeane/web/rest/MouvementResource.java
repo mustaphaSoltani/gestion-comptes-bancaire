@@ -60,7 +60,7 @@ public class MouvementResource {
 
     @GetMapping("/numCte/{numC}")
     @JsonView(value = {Views.MouvementView.class})
-    public ResponseEntity<List<Mouvement>> getMouvementByNumCompte(@PathVariable Integer numC) {// get Mouvement of client
+    public ResponseEntity<List<Mouvement>> getMouvementByNumCompte(@PathVariable Integer numC) {
         log.debug("REST request to get a page of mouvements");
         List<Mouvement> page = mouvementService.findAllMouvementByCompte(numC);
         return new ResponseEntity<>(page, HttpStatus.OK);

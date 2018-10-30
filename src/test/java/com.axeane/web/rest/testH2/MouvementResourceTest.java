@@ -22,7 +22,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -44,9 +43,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = GestionCompteBancaireApplication.class)
 @DataJpaTest
-@ComponentScan("com.axeane")
-//@ContextConfiguration(classes = {GestionCompteBancaireApplication.class})
-@Configuration
+@ComponentScan({"com.axeane.domain.util","com.axeane.service"})
 public class MouvementResourceTest {
 
     private static final TypeMouvementEnum DEFAULT_TYPE_MOUVEMENT = TypeMouvementEnum.RETRAIT;
@@ -55,8 +52,8 @@ public class MouvementResourceTest {
     private static final BigDecimal DEFAULT_SOMME = new BigDecimal(200);
     private static final BigDecimal UPDATED_SOMME = new BigDecimal(300);
 
-    private static final Date DEFAULT_DATE = new Date(2018-10-10);
-    private static final Date UPDATED_DATE = new Date(2018-10-11);
+    private static final Date DEFAULT_DATE = new Date(2018-11-11);
+    private static final Date UPDATED_DATE = new Date(2018-11-12);
 
     @Autowired
     private MouvementService mouvementService;
@@ -67,14 +64,11 @@ public class MouvementResourceTest {
     @Autowired
     private CompteRepository compteRepository;
 
-    @Autowired
-    private MappingJackson2HttpMessageConverter jacksonMessageConverter;
+    private MappingJackson2HttpMessageConverter jacksonMessageConverter=new MappingJackson2HttpMessageConverter();
 
-    @Autowired
-    private PageableHandlerMethodArgumentResolver pageableArgumentResolver;
+    private PageableHandlerMethodArgumentResolver pageableArgumentResolver= new PageableHandlerMethodArgumentResolver();
 
-    @Autowired
-    private ExceptionTranslator exceptionTranslator;
+    private ExceptionTranslator exceptionTranslator=new ExceptionTranslator();
 
     @Autowired
     private EntityManager em;
@@ -96,8 +90,9 @@ public class MouvementResourceTest {
     public Mouvement createEntity(EntityManager em) {
         Mouvement mouvement = new Mouvement();
         Compte compte=new Compte();
+        compte.setNumCompte(456);
         compteRepository.saveAndFlush(compte);
-        mouvement.setCompteId(1L);
+        mouvement.setCompteId(compte.getId());
         mouvement.setSomme(DEFAULT_SOMME);
         mouvement.setTypeMouvement(DEFAULT_TYPE_MOUVEMENT);
         mouvement.setDate(DEFAULT_DATE);
@@ -124,7 +119,6 @@ public class MouvementResourceTest {
         Mouvement testMouvement = mouvementList.get(mouvementList.size() - 1);
         assertThat(testMouvement.getDate()).isEqualTo(DEFAULT_DATE);
         assertThat(testMouvement.getSomme()).isEqualTo(DEFAULT_SOMME);
-        assertThat(testMouvement.getTypeMouvement()).isEqualTo(DEFAULT_TYPE_MOUVEMENT);
     }
 
     @Test
@@ -155,18 +149,17 @@ public class MouvementResourceTest {
     }
 
     @Test
-    public void getAllMouvement() throws Exception {
+    public void getAllMouvementByNumCompte() throws Exception {
         // Initialize the database
-        Mouvement mouvementSaved = mouvementRepository.saveAndFlush(mouvement);
+        Mouvement mouvementSaved = mouvementService.saveMouvement(mouvement);
         // Get all the mouvementList
-        restMouvementMockMvc.perform(get("/api/mouvements?sort=id,desc", mouvementSaved.getId()))
+        restMouvementMockMvc.perform(get("/api/mouvements/numCte/{numC}", mouvementSaved.getCompte().getNumCompte()))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .andExpect(jsonPath("$.[*].id").value(hasItem(mouvementSaved.getId().intValue())))
                 .andExpect(jsonPath("$.[*].somme").value(hasItem(DEFAULT_SOMME)))
-                //.andExpect(jsonPath("$.[*].typeMouvement").value(hasItem(DEFAULT_TYPE_MOUVEMENT)))
-                //.andExpect(jsonPath("$.[*].date").value(hasItem(DEFAULT_DATE)))
-        ;
+                .andExpect(jsonPath("$.[*].typeMouvement").value(hasItem(DEFAULT_TYPE_MOUVEMENT)))
+                .andExpect(jsonPath("$.[*].date").value(hasItem(DEFAULT_DATE)));
     }
 
     @Test
@@ -179,8 +172,9 @@ public class MouvementResourceTest {
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .andExpect(jsonPath("$.id").value(mouvementSaved.getId()))
                 .andExpect(jsonPath("$.somme").value(DEFAULT_SOMME))
-                .andExpect(jsonPath("$.typeMouvement").value(DEFAULT_TYPE_MOUVEMENT))
-                .andExpect(jsonPath("$.date").value(DEFAULT_DATE));
+                .andExpect(jsonPath("$.typeMouvement").value(DEFAULT_TYPE_MOUVEMENT.toString()))
+                //.andExpect(jsonPath("$.date").value(DEFAULT_DATE))
+         ;
     }
 
     @Test

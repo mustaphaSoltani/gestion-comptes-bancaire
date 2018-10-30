@@ -43,7 +43,7 @@ public class ClientResource {
     }
 
     @PostMapping
-    @JsonView(value = {Views.ClientView.class,Views.CompteView.class})
+    @JsonView(value = {Views.ClientView.class})
     public ResponseEntity<Client> createClient(@Valid @RequestBody Client client) throws URISyntaxException {
         log.debug("REST request to save Client : {}", client.toString());
         if (client.getId() != null) {

@@ -1,4 +1,4 @@
-package com.axeane.service;
+package com.axeane.service.testH2;
 
 import com.axeane.GestionCompteBancaireApplication;
 import com.axeane.domain.Client;
@@ -8,6 +8,7 @@ import com.axeane.domain.enumuration.TypeMouvementEnum;
 import com.axeane.repository.ClientRepository;
 import com.axeane.repository.CompteRepository;
 import com.axeane.repository.MouvementRepository;
+import com.axeane.service.MouvementService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -51,7 +51,7 @@ public class Client implements Serializable {
     @JsonView(value = {Views.ClientView.class})
     private Integer numTel;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "client", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "client", cascade = CascadeType.ALL)
     @JsonView(value = {Views.ClientView.class})
     private Set<Compte> comptes = new HashSet<>();
 

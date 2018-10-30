@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -44,7 +45,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(classes = GestionCompteBancaireApplication.class)
 @DataJpaTest
 @ComponentScan("com.axeane")
-@ContextConfiguration(classes = {GestionCompteBancaireApplication.class})
+//@ContextConfiguration(classes = {GestionCompteBancaireApplication.class})
+@Configuration
 public class MouvementResourceTest {
 
     private static final TypeMouvementEnum DEFAULT_TYPE_MOUVEMENT = TypeMouvementEnum.RETRAIT;
@@ -53,8 +55,8 @@ public class MouvementResourceTest {
     private static final BigDecimal DEFAULT_SOMME = new BigDecimal(200);
     private static final BigDecimal UPDATED_SOMME = new BigDecimal(300);
 
-    private static final Date DEFAULT_DATE = new Date();
-    private static final Date UPDATED_DATE = new Date();
+    private static final Date DEFAULT_DATE = new Date(2018-10-10);
+    private static final Date UPDATED_DATE = new Date(2018-10-11);
 
     @Autowired
     private MouvementService mouvementService;

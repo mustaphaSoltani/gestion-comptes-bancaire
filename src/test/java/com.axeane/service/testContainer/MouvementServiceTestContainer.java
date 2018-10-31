@@ -63,7 +63,7 @@ public class MouvementServiceTestContainer {
         }
     }
     @Test
-    public void save() throws Exception {
+    public void saveMouvementTest() throws Exception {
         Mouvement mouvement = new Mouvement();
         Compte compte = new Compte();
         compte.setNumCompte(123);
@@ -78,7 +78,7 @@ public class MouvementServiceTestContainer {
     }
 
     @Test
-    public void getMouvementById() throws Exception {
+    public void getMouvementByIdTest() throws Exception {
         Compte compte = new Compte();
         compte.setNumCompte(456);
         compteRepository.saveAndFlush(compte);
@@ -94,7 +94,7 @@ public class MouvementServiceTestContainer {
     }
 
     @Test
-    public void findAll() throws Exception {
+    public void findAllMouvementTest() throws Exception {
         int sizeListMouvementBeforeSave = mouvementService.findAllMouvementByCompte(456).size();
         Compte compte = new Compte();
         compte.setNumCompte(521);
@@ -117,7 +117,7 @@ public class MouvementServiceTestContainer {
     }
 
     @Test
-    public void delete() throws Exception {
+    public void deleteMouvementTest() throws Exception {
         Compte compte = new Compte();
         compte.setNumCompte(214);
         compteRepository.saveAndFlush(compte);

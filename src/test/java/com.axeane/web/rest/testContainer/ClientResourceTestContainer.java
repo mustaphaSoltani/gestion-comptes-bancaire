@@ -48,20 +48,20 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @TestPropertySource("/application-test-container.properties")
 @ComponentScan({"com.axeane.domain.util","com.axeane.service"})
 public class ClientResourceTestContainer {
-    private static final String DEFAULT_NOM = "Soltani";
-    private static final String UPDATED_NOM = "AAAA";
+    private static final String DEFAULT_NOM1 = "Soltaniii";
+    private static final String UPDATED_NOM = "AAAAA";
 
-    private static final String DEFAULT_PRENOM = "Mustapha";
-    private static final String UPDATED_PRENOM = "BBBB";
+    private static final String DEFAULT_PRENOM = "Mustaphaaa";
+    private static final String UPDATED_PRENOM = "CCCC";
 
-    private static final String DEFAULT_ADRESSE = "Bardo";
-    private static final String UPDATED_ADRESSE = "TTTT";
+    private static final String DEFAULT_ADRESS = "Bardo";
+    private static final String UPDATED_ADRESS = "TTTT";
 
-    private static final String DEFAULT_EMAIL = "email1@gmail.com";
-    private static final String UPDATED_EMAIL = "email2@gmail.com";
+    private static final String DEFAULT_EMAIL = "email14@gmail.com";
+    private static final String UPDATED_EMAIL = "email23@gmail.com";
 
     private static final Integer DEFAULT_CIN = 123456;
-    private static final Integer UPDATED_CIN = 9874561;
+    private static final Integer UPDATED_CIN = 9884561;
 
     private static final Integer DEFAULT_NUM_TEL = 2214141;
     private static final Integer UPDATED_NUM_TEL = 2200000;
@@ -119,20 +119,14 @@ public class ClientResourceTestContainer {
                 .setMessageConverters(jacksonMessageConverter).build();
     }
 
-    /**
-     * Create an entity for this test.
-     * <p>
-     * This is a static method, as tests for other entities might also need it,
-     * if they test an entity which requires the current entity.
-     */
     public Client createEntity(EntityManager em) {
         Client client = new Client();
-        client.setNom(DEFAULT_NOM);
+        client.setNom(DEFAULT_NOM1);
         client.setCin(DEFAULT_CIN);
         client.setPrenom(DEFAULT_PRENOM);
-        client.setEmail(DEFAULT_EMAIL);
         client.setNumTel(DEFAULT_NUM_TEL);
-        client.setAdresse(DEFAULT_ADRESSE);
+        client.setEmail(DEFAULT_EMAIL);
+        client.setAdresse(DEFAULT_ADRESS);
         return client;
     }
 
@@ -149,32 +143,30 @@ public class ClientResourceTestContainer {
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
                 .content(TestUtil.convertObjectToJsonBytes(client)))
                 .andExpect(status().isCreated());
-        // Validate the Client in the database
+
         List<Client> clientList = clientRepository.findAll();
         assertThat(clientList).hasSize(databaseSizeBeforeCreate + 1);
         Client testClient = clientList.get(clientList.size() - 1);
-        assertThat(testClient.getNom()).isEqualTo(DEFAULT_NOM);
+        assertThat(testClient.getNom()).isEqualTo(DEFAULT_NOM1);
         assertThat(testClient.getPrenom()).isEqualTo(DEFAULT_PRENOM);
-        assertThat(testClient.getCin()).isEqualTo(DEFAULT_CIN);
         assertThat(testClient.getEmail()).isEqualTo(DEFAULT_EMAIL);
-        assertThat(testClient.getAdresse()).isEqualTo(DEFAULT_ADRESSE);
+        assertThat(testClient.getCin()).isEqualTo(DEFAULT_CIN);
+        assertThat(testClient.getAdresse()).isEqualTo(DEFAULT_ADRESS);
         assertThat(testClient.getNumTel()).isEqualTo(DEFAULT_NUM_TEL);
     }
 
     @Test
     @Transactional
     public void updateClient() throws Exception {
-        // Initialize the database
         clientRepository.save(client);
         int databaseSizeBeforeUpdate = clientRepository.findAll().size();
 
-        // Update the Client
         Client updatedClient = clientRepository.getClientById(client.getId());
         updatedClient.setEmail(UPDATED_EMAIL);
         updatedClient.setNumTel(UPDATED_NUM_TEL);
         updatedClient.setNom(UPDATED_NOM);
+        updatedClient.setAdresse(UPDATED_ADRESS);
         updatedClient.setPrenom(UPDATED_PRENOM);
-        updatedClient.setAdresse(UPDATED_ADRESSE);
         updatedClient.setCin(UPDATED_CIN);
 
         restClientMockMvc.perform(put("/api/clients")
@@ -191,7 +183,7 @@ public class ClientResourceTestContainer {
         assertThat(testClient.getNom()).isEqualTo(UPDATED_NOM);
         assertThat(testClient.getPrenom()).isEqualTo(UPDATED_PRENOM);
         assertThat(testClient.getCin()).isEqualTo(UPDATED_CIN);
-        assertThat(testClient.getAdresse()).isEqualTo(UPDATED_ADRESSE);
+        assertThat(testClient.getAdresse()).isEqualTo(UPDATED_ADRESS);
     }
 
     @Test
@@ -203,11 +195,11 @@ public class ClientResourceTestContainer {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .andExpect(jsonPath("$.[*].id").value(hasItem(clientSaved.getId().intValue())))
-                .andExpect(jsonPath("$.[*].nom").value(hasItem(DEFAULT_NOM)))
+                .andExpect(jsonPath("$.[*].nom").value(hasItem(DEFAULT_NOM1)))
                 .andExpect(jsonPath("$.[*].numTel").value(hasItem(DEFAULT_NUM_TEL)))
                 .andExpect(jsonPath("$.[*].email").value(hasItem(DEFAULT_EMAIL)))
                 .andExpect(jsonPath("$.[*].prenom").value(hasItem(DEFAULT_PRENOM)))
-                .andExpect(jsonPath("$.[*].adresse").value(hasItem(DEFAULT_ADRESSE)))
+                .andExpect(jsonPath("$.[*].adresse").value(hasItem(DEFAULT_ADRESS)))
                 .andExpect(jsonPath("$.[*].cin").value(hasItem(DEFAULT_CIN)))
         ;
     }
@@ -223,8 +215,8 @@ public class ClientResourceTestContainer {
                 .andExpect(jsonPath("$.id").value(clientSaved.getId()))
                 .andExpect(jsonPath("$.numTel").value(DEFAULT_NUM_TEL))
                 .andExpect(jsonPath("$.email").value(DEFAULT_EMAIL))
-                .andExpect(jsonPath("$.adresse").value(DEFAULT_ADRESSE))
-                .andExpect(jsonPath("$.nom").value(DEFAULT_NOM))
+                .andExpect(jsonPath("$.adresse").value(DEFAULT_ADRESS))
+                .andExpect(jsonPath("$.nom").value(DEFAULT_NOM1))
                 .andExpect(jsonPath("$.prenom").value(DEFAULT_PRENOM));
     }
 
@@ -238,17 +230,14 @@ public class ClientResourceTestContainer {
     @Test
     @Transactional
     public void deleteClient() throws Exception {
-        // Initialize the database
         clientRepository.save(client);
-        int databaseSizeBeforeDelete = clientRepository.findAll().size();
+        int databaseSizeBeforeDelet = clientRepository.findAll().size();
 
-        // Get the client
         restClientMockMvc.perform(delete("/api/clients/{id}", client.getId())
                 .accept(TestUtil.APPLICATION_JSON_UTF8))
                 .andExpect(status().isOk());
 
-        // Validate the database is empty
         List<Client> clientstList = clientRepository.findAll();
-        assertThat(clientstList).hasSize(databaseSizeBeforeDelete - 1);
+        assertThat(clientstList).hasSize(databaseSizeBeforeDelet - 1);
     }
 }

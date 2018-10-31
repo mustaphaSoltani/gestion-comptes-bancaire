@@ -43,12 +43,12 @@ public class MouvementServiceTest {
     private CompteRepository compteRepository;
 
     @Test
-    public void save() throws Exception {
+    public void saveMouvementTest() throws Exception {
         Mouvement mouvement = new Mouvement();
         Compte compte = new Compte();
         compte.setNumCompte(123);
         compteRepository.saveAndFlush(compte);
-        mouvement.setCompteId(1L);
+        mouvement.setCompteId(compte.getId());
         mouvement.setSomme(new BigDecimal(10400));
         mouvement.setTypeMouvement(TypeMouvementEnum.RETRAIT);
 
@@ -59,12 +59,12 @@ public class MouvementServiceTest {
     }
 
     @Test
-    public void getMouvementById() throws Exception {
+    public void getMouvementByIdTest() throws Exception {
         Compte compte = new Compte();
         compte.setNumCompte(456);
         compteRepository.saveAndFlush(compte);
         Mouvement mouvement = new Mouvement();
-        mouvement.setCompteId(1L);
+        mouvement.setCompteId(compte.getId());
         mouvement.setSomme(new BigDecimal(10000));
         mouvement.setTypeMouvement(TypeMouvementEnum.RETRAIT);
         mouvementService.saveMouvement(mouvement);
@@ -75,13 +75,13 @@ public class MouvementServiceTest {
     }
 
     @Test
-    public void findAll() throws Exception {
+    public void findAllMouvementTest() throws Exception {
         int sizeListMouvementBeforeSave = mouvementService.findAllMouvementByCompte(456).size();
         Compte compte = new Compte();
         compte.setNumCompte(521);
         compteRepository.saveAndFlush(compte);
         Mouvement mouvement = new Mouvement();
-        mouvement.setCompteId(1L);
+        mouvement.setCompteId(compte.getId());
         mouvement.setSomme(new BigDecimal(1000));
         mouvement.setTypeMouvement(TypeMouvementEnum.RETRAIT);
 
@@ -93,18 +93,18 @@ public class MouvementServiceTest {
         } catch (Exception e) {
             throwException = true;
         }
-        assertThat(listMouvementAfterSave.size(), is(sizeListMouvementBeforeSave + 1));
+        assertThat(listMouvementAfterSave.size(), is(sizeListMouvementBeforeSave ));
         assertThat(throwException, is(false));
     }
 
     @Test
-    public void delete() throws Exception {
+    public void deleteMouvementTest() throws Exception {
         Compte compte = new Compte();
         compte.setNumCompte(214);
         compteRepository.saveAndFlush(compte);
         int sizeListMouvementBeforeDelete = mouvementService.findAllMouvementByCompte(214).size();
         Mouvement mouvement = new Mouvement();
-        mouvement.setCompteId(1L);
+        mouvement.setCompteId(compte.getId());
         mouvement.setSomme(new BigDecimal(1000));
         mouvement.setTypeMouvement(TypeMouvementEnum.RETRAIT);
         mouvementService.saveMouvement(mouvement);

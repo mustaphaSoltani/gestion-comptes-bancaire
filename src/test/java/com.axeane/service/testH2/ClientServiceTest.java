@@ -53,7 +53,7 @@ public class ClientServiceTest {
     public void getClientByIdTest() throws Exception {
         Client client = new Client();
         client.setNom("Bilel");
-        client.setCin(123456789);
+        client.setCin(123654789);
         client.setPrenom("Omrani");
         client.setEmail("bilel@gmail.com");
         client.setNumTel(5525254);
@@ -69,7 +69,7 @@ public class ClientServiceTest {
     public void getClientByNomTest() throws Exception {
         Client client = new Client();
         client.setNom("Bilell");
-        client.setCin(123456789);
+        client.setCin(123456777);
         client.setPrenom("Omrani");
         client.setEmail("bilel@gmail.com");
         client.setNumTel(5525254);
@@ -85,7 +85,7 @@ public class ClientServiceTest {
     public void getClientBynCinTest() throws Exception {
         Client client = new Client();
         client.setNom("Bilel");
-        client.setCin(1234456789);
+        client.setCin(1234456687);
         client.setPrenom("Omrani");
         client.setEmail("bilel@gmail.com");
         client.setNumTel(5525254);
@@ -101,7 +101,7 @@ public class ClientServiceTest {
     public void getClientBynNumCompteTest() throws Exception {
         Client client = new Client();
         client.setNom("Bilel");
-        client.setCin(14564712);
+        client.setCin(78564712);
         client.setPrenom("Omrani");
         client.setEmail("bilel@gmail.com");
         client.setNumTel(55252541);
@@ -124,7 +124,7 @@ public class ClientServiceTest {
         Client client = new Client();
         client.setNom("Soltani");
         client.setAdresse("Bardo");
-        client.setCin(14564712);
+        client.setCin(11164712);
         List<Client> listClientAfterSave = new ArrayList<>();
         boolean throwException = false;
         try {
@@ -141,7 +141,7 @@ public class ClientServiceTest {
     public void deleteTest() throws Exception {
         int sizeListClientBeforeDelete = clientService.findAllClient().size();
         Client client = new Client();
-        client.setCin(14564712);
+        client.setCin(88864712);
         clientRepository.save(client);
         Client client1 = clientRepository.findAll().get(clientRepository.findAll().size() - 1);
         clientService.deleteClient(client1.getId());

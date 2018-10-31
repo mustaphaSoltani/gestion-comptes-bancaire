@@ -48,6 +48,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @TestPropertySource("/application-test-container.properties")
 @ComponentScan({"com.axeane.domain.util","com.axeane.service"})
 public class ClientResourceTestContainer {
+    
     private static final String DEFAULT_NOM1 = "Soltaniii";
     private static final String UPDATED_NOM = "AAAAA";
 
@@ -137,7 +138,7 @@ public class ClientResourceTestContainer {
 
     @Test
     @Transactional
-    public void createClient() throws Exception {
+    public void createClientTest() throws Exception {
         int databaseSizeBeforeCreate = clientRepository.findAll().size();
         restClientMockMvc.perform(post("/api/clients")
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -157,7 +158,7 @@ public class ClientResourceTestContainer {
 
     @Test
     @Transactional
-    public void updateClient() throws Exception {
+    public void updateClientTest() throws Exception {
         clientRepository.save(client);
         int databaseSizeBeforeUpdate = clientRepository.findAll().size();
 
@@ -187,7 +188,7 @@ public class ClientResourceTestContainer {
     }
 
     @Test
-    public void getAllClient() throws Exception {
+    public void getAllClientTest() throws Exception {
         // Initialize the database
         Client clientSaved = clientRepository.saveAndFlush(client);
         // Get all the clientList
@@ -205,7 +206,7 @@ public class ClientResourceTestContainer {
     }
 
     @Test
-    public void getClientById() throws Exception {
+    public void getClientByIdTest() throws Exception {
         // Initialize the database
         Client clientSaved = clientRepository.saveAndFlush(client);
         // Get the clients
@@ -221,7 +222,7 @@ public class ClientResourceTestContainer {
     }
 
     @Test
-    public void getNonExistingClient() throws Exception {
+    public void getNonExistingClientTest() throws Exception {
         // Get the client
         restClientMockMvc.perform(get("/api/clients/{id}", Long.MAX_VALUE))
                 .andExpect(status().isNotFound());
@@ -229,7 +230,7 @@ public class ClientResourceTestContainer {
 
     @Test
     @Transactional
-    public void deleteClient() throws Exception {
+    public void deleteClientTest() throws Exception {
         clientRepository.save(client);
         int databaseSizeBeforeDelet = clientRepository.findAll().size();
 

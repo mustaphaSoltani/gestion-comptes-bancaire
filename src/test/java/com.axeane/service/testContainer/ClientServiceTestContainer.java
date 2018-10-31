@@ -33,7 +33,7 @@ import static org.junit.Assert.assertThat;
 @ContextConfiguration(initializers = {ClientServiceTestContainer.Initializer.class})
 @SpringBootTest(classes = GestionCompteBancaireApplication.class)
 @TestPropertySource("/application-test-container.properties")
-@ComponentScan("com.axeane")
+@ComponentScan({"com.axeane.domain.util","com.axeane.service"})
 public class ClientServiceTestContainer {
     @Autowired
     private ClientService clientService;

@@ -6,7 +6,7 @@ import com.axeane.domain.Views;
 import com.axeane.domain.util.ResponseUtil;
 import com.axeane.service.ClientService;
 import com.axeane.service.business.ExtraitCompteBancaireService;
-import com.axeane.service.business.SendExtraitMailJetService;
+import com.axeane.service.business.MailExtraitService;
 import com.axeane.web.util.HeaderUtil;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.mailjet.client.errors.MailjetException;
@@ -33,13 +33,13 @@ public class ClientResource {
 
     private final ClientService clientService;
     private final ExtraitCompteBancaireService extraitCompteBancaireService;
-    private final SendExtraitMailJetService sendExtraitMailJetService;
+    private final MailExtraitService mailExtraitService;
 
-    public ClientResource(ClientService clientService, ExtraitCompteBancaireService extraitCompteBancaireService, SendExtraitMailJetService sendExtraitMailJetService) {
+    public ClientResource(ClientService clientService, ExtraitCompteBancaireService extraitCompteBancaireService, MailExtraitService mailExtraitService) {
         this.clientService = clientService;
 
         this.extraitCompteBancaireService = extraitCompteBancaireService;
-        this.sendExtraitMailJetService = sendExtraitMailJetService;
+        this.mailExtraitService = mailExtraitService;
     }
 
     @PostMapping
@@ -86,7 +86,7 @@ public class ClientResource {
 
     @GetMapping("cin/{cin}")
     @JsonView(value = {Views.ClientView.class})
-    public ResponseEntity getClientByCin(@PathVariable Integer cin) {
+    public ResponseEntity getClientByCin(@PathVariable Long cin) {
         log.debug("REST request to get Client : {}", cin);
         Optional<Client> client = Optional.ofNullable(clientService.getClientBynCin(cin));
         return ResponseUtil.wrapOrNotFound(client);
@@ -123,6 +123,6 @@ public class ClientResource {
 
     @PostMapping("/sendMail")
     public void sendMail(Mail mail) throws MailjetSocketTimeoutException, MailjetException {
-        sendExtraitMailJetService.sendExtrait(mail);
+        mailExtraitService.sendExtrait(mail);
     }
 }

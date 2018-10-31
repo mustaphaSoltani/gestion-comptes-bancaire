@@ -61,23 +61,20 @@ private CompteRepository compteRepository;
 
     @Test
     public void saveClientTest() throws Exception {
-        System.out.println("start");
-        Client client = new Client();
-        client.setNom("Bilel");
-        client.setAdresse("tunis");
-        client.setCin(78978978);
-        clientService.createClient(client);
-        System.out.println("created");
+        Client client1 = new Client();
+        client1.setNom("Bilel");
+        client1.setAdresse("tunis");
+        client1.setCin(78978978L);
+        clientService.createClient(client1);
 
         Client clientResult = clientRepository.findAll().get(clientRepository.findAll().size() - 1);
-        System.out.println("list");
         assertThat(clientResult.getNom(), is("Bilel"));
     }
     @Test
     public void getClientByIdTest() throws Exception {
         Client client = new Client();
         client.setNom("Bilel");
-        client.setCin(123456789);
+        client.setCin(123456789L);
         client.setPrenom("Omrani");
         client.setEmail("bilel@gmail.com");
         client.setNumTel(5525254);
@@ -93,7 +90,7 @@ private CompteRepository compteRepository;
     public void getClientByNomTest() throws Exception {
         Client client = new Client();
         client.setNom("Bilell");
-        client.setCin(123456789);
+        client.setCin(123456789L);
         client.setPrenom("Omrani");
         client.setEmail("bilel@gmail.com");
         client.setNumTel(5525254);
@@ -109,7 +106,7 @@ private CompteRepository compteRepository;
     public void getClientBynCinTest() throws Exception {
         Client client = new Client();
         client.setNom("Bilel");
-        client.setCin(1234456789);
+        client.setCin(1234456789L);
         client.setPrenom("Omrani");
         client.setEmail("bilel@gmail.com");
         client.setNumTel(5525254);
@@ -125,7 +122,7 @@ private CompteRepository compteRepository;
     public void getClientBynNumCompteTest() throws Exception {
         Client client = new Client();
         client.setNom("Bilel");
-        client.setCin(14564712);
+        client.setCin(14564712L);
         client.setPrenom("Omrani");
         client.setEmail("bilel@gmail.com");
         client.setNumTel(55252541);
@@ -148,7 +145,7 @@ private CompteRepository compteRepository;
         Client client = new Client();
         client.setNom("Soltani");
         client.setAdresse("Bardo");
-        client.setCin(14564712);
+        client.setCin(14564712L);
         List<Client> listClientAfterSave = new ArrayList<>();
         boolean throwException = false;
         try {
@@ -165,7 +162,7 @@ private CompteRepository compteRepository;
     public void deleteTest() throws Exception {
         int sizeListClientBeforeDelete = clientService.findAllClient().size();
         Client client = new Client();
-        client.setCin(14564712);
+        client.setCin(14564712L);
         clientRepository.save(client);
         Client client1 = clientRepository.findAll().get(clientRepository.findAll().size() - 1);
         clientService.deleteClient(client1.getId());

@@ -46,7 +46,7 @@ public class ClientService {
     }
 
     @Transactional(readOnly = true)
-    public Client getClientBynCin(Integer cin) {
+    public Client getClientBynCin(Long cin) {
         log.debug("Request to get Client by cin: {}", cin);
         return clientRepository.getClientByCin(cin);
     }

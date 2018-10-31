@@ -48,8 +48,8 @@ public class MouvementResourceTest {
     private static final BigDecimal DEFAULT_SOMME = new BigDecimal(200);
     private static final BigDecimal UPDATED_SOMME = new BigDecimal(300);
 
-    private static final Date DEFAULT_DATE = new Date(2018-11-11);
-    private static final Date UPDATED_DATE = new Date(2018-11-12);
+    private static final Date DEFAULT_DATE = new Date(12/12/2019);
+    private static final Date UPDATED_DATE = new Date();
 
     @Autowired
     private MouvementService mouvementService;

@@ -5,9 +5,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonView;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import javax.validation.constraints.Future;
 import javax.validation.constraints.FutureOrPresent;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -36,12 +39,14 @@ public class Mouvement implements Serializable {
     @JsonView(value = {Views.MouvementView.class, Views.CompteView.class})
     private BigDecimal somme;// validation non zero
 
-    //@FutureOrPresent
+    @NotNull
+    @DateTimeFormat(pattern = "dd/MM/yyyy")
     @Column(name = "date")
     @Temporal(TemporalType.DATE)
     @JsonView(value = {Views.MouvementView.class, Views.CompteView.class})
     private Date date;// validation not null et non au passé
 
+    @NotNull
     @Transient
     @JsonProperty
     private Long compteId;

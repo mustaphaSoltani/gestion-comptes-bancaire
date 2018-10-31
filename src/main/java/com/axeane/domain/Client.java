@@ -25,9 +25,9 @@ public class Client implements Serializable {
     @NotNull
     @Column(name = "cin", unique = true, length = 8)
     @JsonView(value = {Views.ClientView.class})
-    private Integer cin;
+    private Long cin;
 
-    @Size(max = 50)
+    @Size(max = 50, message = "le nom ne doit dépasser 50 caractères")
     @Column(name = "nom")
     @JsonView(value = {Views.ClientView.class})
     private String nom;
@@ -42,7 +42,7 @@ public class Client implements Serializable {
     private String adresse;
 
     @Email
-    @Size(min = 5, max = 100)
+    @Size(min = 10, max = 60)
     @Column(name = "email")
     @JsonView(value = {Views.ClientView.class})
     private String email;
@@ -99,11 +99,11 @@ public class Client implements Serializable {
         this.email = email;
     }
 
-    public Integer getCin() {
+    public Long getCin() {
         return cin;
     }
 
-    public void setCin(Integer cin) {
+    public void setCin(Long cin) {
         this.cin = cin;
     }
 

@@ -4,7 +4,7 @@ import com.axeane.GestionCompteBancaireApplication;
 import com.axeane.domain.Client;
 import com.axeane.repository.ClientRepository;
 import com.axeane.service.business.ExtraitCompteBancaireService;
-import com.axeane.service.business.SendExtraitMailJetService;
+import com.axeane.service.business.MailExtraitService;
 import com.axeane.service.ClientService;
 import com.axeane.web.errors.ExceptionTranslator;
 import com.axeane.web.rest.ClientResource;
@@ -61,8 +61,8 @@ public class ClientResourceTestContainer {
     private static final String DEFAULT_EMAIL = "email14@gmail.com";
     private static final String UPDATED_EMAIL = "email23@gmail.com";
 
-    private static final Integer DEFAULT_CIN = 123456;
-    private static final Integer UPDATED_CIN = 9884561;
+    private static final Long DEFAULT_CIN = 12345612L;
+    private static final Long UPDATED_CIN = 98845621L;
 
     private static final Integer DEFAULT_NUM_TEL = 2214141;
     private static final Integer UPDATED_NUM_TEL = 2200000;
@@ -74,7 +74,7 @@ public class ClientResourceTestContainer {
     private ExtraitCompteBancaireService extraitCompteBancaireService;
 
     @Autowired
-    private SendExtraitMailJetService sendExtraitMailJetService;
+    private MailExtraitService mailExtraitService;
 
     @Autowired
     private ClientRepository clientRepository;
@@ -113,7 +113,7 @@ public class ClientResourceTestContainer {
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
-        ClientResource clientResource = new ClientResource(clientService, extraitCompteBancaireService, sendExtraitMailJetService);
+        ClientResource clientResource = new ClientResource(clientService, extraitCompteBancaireService, mailExtraitService);
         this.restClientMockMvc = MockMvcBuilders.standaloneSetup(clientResource)
                 .setCustomArgumentResolvers(pageableArgumentResolver)
                 .setControllerAdvice(exceptionTranslator)

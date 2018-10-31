@@ -21,6 +21,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -50,6 +51,7 @@ public class MouvementServiceTest {
         compteRepository.saveAndFlush(compte1);
         mouvement1.setCompteId(compte1.getId());
         mouvement1.setSomme(new BigDecimal(10400));
+        mouvement1.setDate(new Date(13/12/2018));
         mouvement1.setTypeMouvement(TypeMouvementEnum.RETRAIT);
 
         mouvementService.saveMouvement(mouvement1);
@@ -67,6 +69,7 @@ public class MouvementServiceTest {
         mouvement.setCompteId(compte2.getId());
         mouvement.setSomme(new BigDecimal(10000));
         mouvement.setTypeMouvement(TypeMouvementEnum.RETRAIT);
+        mouvement.setDate(new Date(13/12/2018));
         mouvementService.saveMouvement(mouvement);
         List<Mouvement> listMouvementAfterSave = mouvementService.findAllMouvementByCompte(456);
         Mouvement mouvementtSaved = mouvementService.getMouvementById(listMouvementAfterSave.get(listMouvementAfterSave.size() - 1).getId());
@@ -82,6 +85,7 @@ public class MouvementServiceTest {
         compteRepository.saveAndFlush(compte3);
         Mouvement mouvement = new Mouvement();
         mouvement.setCompteId(compte3.getId());
+        mouvement.setDate(new Date(13/12/2018));
         mouvement.setSomme(new BigDecimal(1000));
         mouvement.setTypeMouvement(TypeMouvementEnum.RETRAIT);
 
@@ -107,10 +111,32 @@ public class MouvementServiceTest {
         mouvement.setCompteId(compte4.getId());
         mouvement.setSomme(new BigDecimal(1000));
         mouvement.setTypeMouvement(TypeMouvementEnum.RETRAIT);
+        mouvement.setDate(new Date(13/12/2018));
         mouvementService.saveMouvement(mouvement);
         Mouvement mouvement1 = mouvementService.findAllMouvementByCompte(214).get(mouvementService.findAllMouvementByCompte(214).size() - 1);
         mouvementService.delete(mouvement1.getId());
         int sizeListMouvementAfterDelete = mouvementService.findAllMouvementByCompte(214).size();
         assertThat(sizeListMouvementBeforeDelete, is(sizeListMouvementAfterDelete));
+    }
+
+    @Test
+    public void checkCompteIdIsNotNull() throws Exception {
+        int sizeListMouvemntBeforeSave = mouvementRepository.findAll().size();
+        Compte compte3 = new Compte();
+        compte3.setNumCompte(521);
+        compteRepository.saveAndFlush(compte3);
+        Mouvement mouvement = new Mouvement();
+        mouvement.setCompteId(null);
+        List<Mouvement> listMouvementAfterSave = new ArrayList<>();
+        boolean throwException = false;
+        String message = "";
+        try {
+            mouvementRepository.save(mouvement);
+            listMouvementAfterSave = mouvementService.findAllMouvementByCompte(521);
+        } catch (Exception e) {
+            throwException = true;
+        }
+        assertThat(listMouvementAfterSave.size(), is(sizeListMouvemntBeforeSave ));
+        assertThat(throwException, is(true));
     }
 }

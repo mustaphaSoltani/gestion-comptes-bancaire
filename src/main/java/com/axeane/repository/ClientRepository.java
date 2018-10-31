@@ -11,7 +11,7 @@ import java.util.List;
 @Repository
 public interface ClientRepository extends JpaRepository<Client, Long> {
 
-    Client getClientByCin(Integer cin);
+    Client getClientByCin(Long cin);
 
     Client getClientById(Long id);
 

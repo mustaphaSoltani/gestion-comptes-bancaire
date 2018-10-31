@@ -13,7 +13,7 @@ import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
 @Service
-public class SendExtraitMailJetService {
+public class MailExtraitService {
 
     public void sendExtrait(Mail sendmail) throws MailjetException, MailjetSocketTimeoutException {
         MailjetClient client;

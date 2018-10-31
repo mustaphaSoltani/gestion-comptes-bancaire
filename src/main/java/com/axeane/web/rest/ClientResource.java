@@ -86,7 +86,7 @@ public class ClientResource {
 
     @GetMapping("cin/{cin}")
     @JsonView(value = {Views.ClientView.class})
-    public ResponseEntity getClientByCin(@PathVariable Long cin) {
+    public ResponseEntity getClientByCin(@PathVariable String cin) {
         log.debug("REST request to get Client : {}", cin);
         Optional<Client> client = Optional.ofNullable(clientService.getClientBynCin(cin));
         return ResponseUtil.wrapOrNotFound(client);

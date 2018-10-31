@@ -19,6 +19,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.testcontainers.containers.PostgreSQLContainer;
+import org.thymeleaf.util.StringUtils;
 
 import java.time.Duration;
 import java.util.ArrayList;
@@ -61,23 +62,23 @@ private CompteRepository compteRepository;
 
     @Test
     public void saveClientTest() throws Exception {
-        Client client1 = new Client();
-        client1.setNom("Bilel");
-        client1.setAdresse("tunis");
-        client1.setCin(78978978L);
-        clientService.createClient(client1);
-
+        Client client = new Client();
+        client.setNom("Sami");
+        client.setAdresse("aloui");
+        client.setCin("12345609");
+        clientService.createClient(client);
         Client clientResult = clientRepository.findAll().get(clientRepository.findAll().size() - 1);
-        assertThat(clientResult.getNom(), is("Bilel"));
+        assertThat(clientResult.getNom(), is("Sami"));
     }
+
     @Test
     public void getClientByIdTest() throws Exception {
         Client client = new Client();
         client.setNom("Bilel");
-        client.setCin(123456789L);
+        client.setCin("12345602");
         client.setPrenom("Omrani");
         client.setEmail("bilel@gmail.com");
-        client.setNumTel(5525254);
+        client.setNumTel("12345678");
         client.setAdresse("Bardo");
 
         clientService.createClient(client);
@@ -90,10 +91,10 @@ private CompteRepository compteRepository;
     public void getClientByNomTest() throws Exception {
         Client client = new Client();
         client.setNom("Bilell");
-        client.setCin(123456789L);
+        client.setCin("12345608");
         client.setPrenom("Omrani");
         client.setEmail("bilel@gmail.com");
-        client.setNumTel(5525254);
+        client.setNumTel("12345678");
         client.setAdresse("Bardo");
 
         clientService.createClient(client);
@@ -106,10 +107,10 @@ private CompteRepository compteRepository;
     public void getClientBynCinTest() throws Exception {
         Client client = new Client();
         client.setNom("Bilel");
-        client.setCin(1234456789L);
+        client.setCin("12345608");
         client.setPrenom("Omrani");
         client.setEmail("bilel@gmail.com");
-        client.setNumTel(5525254);
+        client.setNumTel("12345678");
         client.setAdresse("Bardo");
 
         clientService.createClient(client);
@@ -122,10 +123,10 @@ private CompteRepository compteRepository;
     public void getClientBynNumCompteTest() throws Exception {
         Client client = new Client();
         client.setNom("Bilel");
-        client.setCin(14564712L);
+        client.setCin("12345608");
         client.setPrenom("Omrani");
         client.setEmail("bilel@gmail.com");
-        client.setNumTel(55252541);
+        client.setNumTel("12345678");
         client.setAdresse("Bardo");
         Compte comtpe = new Compte();
         comtpe.setNumCompte(321);
@@ -145,7 +146,7 @@ private CompteRepository compteRepository;
         Client client = new Client();
         client.setNom("Soltani");
         client.setAdresse("Bardo");
-        client.setCin(14564712L);
+        client.setCin("12345608");
         List<Client> listClientAfterSave = new ArrayList<>();
         boolean throwException = false;
         try {
@@ -162,11 +163,116 @@ private CompteRepository compteRepository;
     public void deleteTest() throws Exception {
         int sizeListClientBeforeDelete = clientService.findAllClient().size();
         Client client = new Client();
-        client.setCin(14564712L);
+        client.setCin("12345608");
         clientRepository.save(client);
         Client client1 = clientRepository.findAll().get(clientRepository.findAll().size() - 1);
         clientService.deleteClient(client1.getId());
         int sizeListClientAfterDelete = clientService.findAllClient().size();
         assertThat(sizeListClientBeforeDelete, is(sizeListClientAfterDelete));
+    }
+    @Test
+    public void checkCinIsLengthThan8() throws Exception {
+        int sizeListClientBeforeSave = clientRepository.findAll().size();
+        Client client1 = new Client();
+        client1.setCin("1234467");
+        List<Client> listClientAfterSave = new ArrayList<>();
+        boolean throwException = false;
+        try {
+            clientService.createClient(client1);
+            listClientAfterSave = clientRepository.findAll();
+        } catch (Exception e) {
+            throwException = true;
+        }
+        assertThat(listClientAfterSave.size(), is(sizeListClientBeforeSave));
+        assertThat(throwException, is(true));
+    }
+
+    @Test
+    public void checkNomIsLengthMax50() throws Exception {
+        int sizeListClientBeforeSave = clientRepository.findAll().size();
+        Client client1 = new Client();
+        client1.setCin("12345608");
+        client1.setNom(StringUtils.repeat("a",66));
+        List<Client> listClientAfterSave = new ArrayList<>();
+        boolean throwException = false;
+        try {
+            clientService.createClient(client1);
+            listClientAfterSave = clientRepository.findAll();
+        } catch (Exception e) {
+            throwException = true;
+        }
+        assertThat(listClientAfterSave.size(), is(sizeListClientBeforeSave));
+        assertThat(throwException, is(true));
+    }
+
+    @Test
+    public void checkPrenomIsLengthMax50() throws Exception {
+        int sizeListClientBeforeSave = clientRepository.findAll().size();
+        Client client1 = new Client();
+        client1.setCin("12355678");
+        client1.setPrenom(StringUtils.repeat("a",66));
+        List<Client> listClientAfterSave = new ArrayList<>();
+        boolean throwException = false;
+        try {
+            clientService.createClient(client1);
+            listClientAfterSave = clientRepository.findAll();
+        } catch (Exception e) {
+            throwException = true;
+        }
+        assertThat(listClientAfterSave.size(), is(sizeListClientBeforeSave));
+        assertThat(throwException, is(true));
+    }
+
+    @Test
+    public void checkNumTelIsLengthThan8() throws Exception {
+        int sizeListClientBeforeSave = clientRepository.findAll().size();
+        Client client1 = new Client();
+        client1.setCin("12348678");
+        client1.setNumTel("1234567");
+        List<Client> listClientAfterSave = new ArrayList<>();
+        boolean throwException = false;
+        try {
+            clientService.createClient(client1);
+            listClientAfterSave = clientRepository.findAll();
+        } catch (Exception e) {
+            throwException = true;
+        }
+        assertThat(listClientAfterSave.size(), is(sizeListClientBeforeSave));
+        assertThat(throwException, is(true));
+    }
+
+    @Test
+    public void checkEmailIsLengthMax60() throws Exception {
+        int sizeListClientBeforeSave = clientRepository.findAll().size();
+        Client client1 = new Client();
+        client1.setCin("12347678");
+        client1.setEmail(StringUtils.repeat("a",66));
+        List<Client> listClientAfterSave = new ArrayList<>();
+        boolean throwException = false;
+        try {
+            clientService.createClient(client1);
+            listClientAfterSave = clientRepository.findAll();
+        } catch (Exception e) {
+            throwException = true;
+        }
+        assertThat(listClientAfterSave.size(), is(sizeListClientBeforeSave));
+        assertThat(throwException, is(true));
+    }
+    @Test
+    public void checkEmailIsLengthMin10() throws Exception {
+        int sizeListClientBeforeSave = clientRepository.findAll().size();
+        Client client1 = new Client();
+        client1.setCin("14785222");
+        client1.setEmail(StringUtils.repeat("a",8));
+        List<Client> listClientAfterSave = new ArrayList<>();
+        boolean throwException = false;
+        try {
+            clientService.createClient(client1);
+            listClientAfterSave = clientRepository.findAll();
+        } catch (Exception e) {
+            throwException = true;
+        }
+        assertThat(listClientAfterSave.size(), is(sizeListClientBeforeSave));
+        assertThat(throwException, is(true));
     }
 }

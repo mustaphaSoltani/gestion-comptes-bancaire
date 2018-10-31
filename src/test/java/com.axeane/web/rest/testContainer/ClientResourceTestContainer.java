@@ -61,11 +61,11 @@ public class ClientResourceTestContainer {
     private static final String DEFAULT_EMAIL = "email14@gmail.com";
     private static final String UPDATED_EMAIL = "email23@gmail.com";
 
-    private static final Long DEFAULT_CIN = 12345612L;
-    private static final Long UPDATED_CIN = 98845621L;
+    private static final String DEFAULT_CIN = "12345678";
+    private static final String UPDATED_CIN = "12345678";
 
-    private static final Integer DEFAULT_NUM_TEL = 2214141;
-    private static final Integer UPDATED_NUM_TEL = 2200000;
+    private static final String DEFAULT_NUM_TEL = "12345678";
+    private static final String UPDATED_NUM_TEL = "12345678";
 
     @Autowired
     private ClientService clientService;

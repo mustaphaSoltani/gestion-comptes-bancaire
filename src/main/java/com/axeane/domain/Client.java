@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonView;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.HashSet;
@@ -23,11 +24,12 @@ public class Client implements Serializable {
     private Long id;
 
     @NotNull
+    @Size(max = 8, min = 8)
     @Column(name = "cin", unique = true, length = 8)
     @JsonView(value = {Views.ClientView.class})
-    private Long cin;
+    private String cin;
 
-    @Size(max = 50, message = "le nom ne doit dépasser 50 caractères")
+    @Size(max = 50)
     @Column(name = "nom")
     @JsonView(value = {Views.ClientView.class})
     private String nom;
@@ -47,9 +49,10 @@ public class Client implements Serializable {
     @JsonView(value = {Views.ClientView.class})
     private String email;
 
+    @Size(min = 8, max = 8)
     @Column(name = "num_tel", length = 8)
     @JsonView(value = {Views.ClientView.class})
-    private Integer numTel;
+    private String numTel;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "client", cascade = CascadeType.ALL)
     @JsonView(value = {Views.ClientView.class})
@@ -99,19 +102,19 @@ public class Client implements Serializable {
         this.email = email;
     }
 
-    public Long getCin() {
+    public String getCin() {
         return cin;
     }
 
-    public void setCin(Long cin) {
+    public void setCin(String cin) {
         this.cin = cin;
     }
 
-    public Integer getNumTel() {
+    public String getNumTel() {
         return numTel;
     }
 
-    public void setNumTel(Integer numTel) {
+    public void setNumTel(String numTel) {
         this.numTel = numTel;
     }
 

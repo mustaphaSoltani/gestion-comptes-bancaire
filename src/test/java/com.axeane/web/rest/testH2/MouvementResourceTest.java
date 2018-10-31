@@ -48,7 +48,7 @@ public class MouvementResourceTest {
     private static final BigDecimal DEFAULT_SOMME = new BigDecimal(200);
     private static final BigDecimal UPDATED_SOMME = new BigDecimal(300);
 
-    private static final Date DEFAULT_DATE = new Date(12/12/2019);
+    private static final Date DEFAULT_DATE = new Date(13/12/2019);
     private static final Date UPDATED_DATE = new Date();
 
     @Autowired
@@ -142,20 +142,6 @@ public class MouvementResourceTest {
         assertThat(testMouvement.getTypeMouvement()).isEqualTo(UPDATED_TYPE_MOUVEMENT);
         assertThat(testMouvement.getSomme()).isEqualTo(UPDATED_SOMME);
         assertThat(testMouvement.getDate()).isEqualTo(UPDATED_DATE);
-    }
-
-    @Test
-    public void getAllMouvementByNumCompte() throws Exception {
-        // Initialize the database
-        Mouvement mouvementSaved = mouvementService.saveMouvement(mouvement);
-        // Get all the mouvementList
-        restMouvementMockMvc.perform(get("/api/mouvements/numCte/{numC}", mouvementSaved.getCompte().getNumCompte()))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-                .andExpect(jsonPath("$.[*].id").value(hasItem(mouvementSaved.getId().intValue())))
-                .andExpect(jsonPath("$.[*].somme").value(hasItem(DEFAULT_SOMME)))
-                .andExpect(jsonPath("$.[*].typeMouvement").value(hasItem(DEFAULT_TYPE_MOUVEMENT)))
-                .andExpect(jsonPath("$.[*].date").value(hasItem(DEFAULT_DATE)));
     }
 
     @Test

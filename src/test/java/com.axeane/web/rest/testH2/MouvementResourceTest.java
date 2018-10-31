@@ -78,7 +78,7 @@ public class MouvementResourceTest {
     private Mouvement mouvement;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp(){
         MockitoAnnotations.initMocks(this);
         MouvementResource mouvementResource = new MouvementResource(mouvementService);
         this.restMouvementMockMvc = MockMvcBuilders.standaloneSetup(mouvementResource)
@@ -144,8 +144,8 @@ public class MouvementResourceTest {
         assertThat(mouvementList).hasSize(databaseSizeBeforeUpdate);
         Mouvement testMouvement = mouvementList.get(mouvementList.size() - 1);
         assertThat(testMouvement.getTypeMouvement()).isEqualTo(UPDATED_TYPE_MOUVEMENT);
-        assertThat(testMouvement.getDate()).isEqualTo(UPDATED_DATE);
         assertThat(testMouvement.getSomme()).isEqualTo(UPDATED_SOMME);
+        assertThat(testMouvement.getDate()).isEqualTo(UPDATED_DATE);
     }
 
     @Test

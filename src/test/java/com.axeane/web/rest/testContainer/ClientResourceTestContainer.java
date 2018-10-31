@@ -4,7 +4,7 @@ import com.axeane.GestionCompteBancaireApplication;
 import com.axeane.domain.Client;
 import com.axeane.repository.ClientRepository;
 import com.axeane.service.business.ExtraitCompteBancaireService;
-import com.axeane.service.business.SendExtratMailJetService;
+import com.axeane.service.business.SendExtraitMailJetService;
 import com.axeane.service.ClientService;
 import com.axeane.web.errors.ExceptionTranslator;
 import com.axeane.web.rest.ClientResource;
@@ -48,7 +48,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @TestPropertySource("/application-test-container.properties")
 @ComponentScan({"com.axeane.domain.util","com.axeane.service"})
 public class ClientResourceTestContainer {
-    
+
     private static final String DEFAULT_NOM1 = "Soltaniii";
     private static final String UPDATED_NOM = "AAAAA";
 
@@ -74,7 +74,7 @@ public class ClientResourceTestContainer {
     private ExtraitCompteBancaireService extraitCompteBancaireService;
 
     @Autowired
-    private SendExtratMailJetService sendExtratMailJetService;
+    private SendExtraitMailJetService sendExtraitMailJetService;
 
     @Autowired
     private ClientRepository clientRepository;
@@ -113,7 +113,7 @@ public class ClientResourceTestContainer {
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
-        ClientResource clientResource = new ClientResource(clientService, extraitCompteBancaireService, sendExtratMailJetService);
+        ClientResource clientResource = new ClientResource(clientService, extraitCompteBancaireService, sendExtraitMailJetService);
         this.restClientMockMvc = MockMvcBuilders.standaloneSetup(clientResource)
                 .setCustomArgumentResolvers(pageableArgumentResolver)
                 .setControllerAdvice(exceptionTranslator)

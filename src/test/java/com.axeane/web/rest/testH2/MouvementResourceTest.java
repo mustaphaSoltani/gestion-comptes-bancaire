@@ -18,7 +18,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -31,14 +30,11 @@ import javax.persistence.EntityManager;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
-import java.util.function.BiConsumer;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = GestionCompteBancaireApplication.class)
@@ -172,9 +168,7 @@ public class MouvementResourceTest {
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .andExpect(jsonPath("$.id").value(mouvementSaved.getId()))
                 .andExpect(jsonPath("$.somme").value(DEFAULT_SOMME))
-                .andExpect(jsonPath("$.typeMouvement").value(DEFAULT_TYPE_MOUVEMENT.toString()))
-                //.andExpect(jsonPath("$.date").value(DEFAULT_DATE))
-         ;
+                .andExpect(jsonPath("$.typeMouvement").value(DEFAULT_TYPE_MOUVEMENT.toString()));
     }
 
     @Test
@@ -186,10 +180,10 @@ public class MouvementResourceTest {
 
     @Test
     @Transactional
-    public void deleteMouvement() throws Exception {
+    public void deleteMouvementTest() throws Exception {
         // Initialize the database
         mouvementRepository.save(mouvement);
-        int databaseSizeBeforeDelete = mouvementRepository.findAll().size();
+        int databaseSizeBeforeDeleted = mouvementRepository.findAll().size();
 
         // Get the mouvement
         restMouvementMockMvc.perform(delete("/api/mouvements/{id}", mouvement.getId())
@@ -197,7 +191,7 @@ public class MouvementResourceTest {
                 .andExpect(status().isOk());
 
         // Validate the database is empty
-        List<Mouvement> mouvementtList = mouvementRepository.findAll();
-        assertThat(mouvementtList).hasSize(databaseSizeBeforeDelete - 1);
+        List<Mouvement> mouvementtListt = mouvementRepository.findAll();
+        assertThat(mouvementtListt).hasSize(databaseSizeBeforeDeleted - 1);
     }
 }

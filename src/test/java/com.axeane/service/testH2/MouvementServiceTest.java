@@ -44,44 +44,44 @@ public class MouvementServiceTest {
 
     @Test
     public void saveMouvementTest() throws Exception {
-        Mouvement mouvement = new Mouvement();
-        Compte compte = new Compte();
-        compte.setNumCompte(123);
-        compteRepository.saveAndFlush(compte);
-        mouvement.setCompteId(compte.getId());
-        mouvement.setSomme(new BigDecimal(10400));
-        mouvement.setTypeMouvement(TypeMouvementEnum.RETRAIT);
+        Mouvement mouvement1 = new Mouvement();
+        Compte compte1 = new Compte();
+        compte1.setNumCompte(123);
+        compteRepository.saveAndFlush(compte1);
+        mouvement1.setCompteId(compte1.getId());
+        mouvement1.setSomme(new BigDecimal(10400));
+        mouvement1.setTypeMouvement(TypeMouvementEnum.RETRAIT);
 
-        mouvementService.saveMouvement(mouvement);
-        Mouvement mouvementResult = mouvementRepository.findAll().get(mouvementRepository.findAll().size() - 1);
-        assertThat(mouvementResult.getCompteId(), is(1L));
-        assertThat(mouvementResult.getSomme(), is(new BigDecimal(10400)));
+        mouvementService.saveMouvement(mouvement1);
+        Mouvement mouvementResult1 = mouvementRepository.findAll().get(mouvementRepository.findAll().size() - 1);
+        assertThat(mouvementResult1.getCompteId(), is(compte1.getId()));
+        assertThat(mouvementResult1.getSomme(), is(new BigDecimal(10400)));
     }
 
     @Test
     public void getMouvementByIdTest() throws Exception {
-        Compte compte = new Compte();
-        compte.setNumCompte(456);
-        compteRepository.saveAndFlush(compte);
+        Compte compte2 = new Compte();
+        compte2.setNumCompte(456);
+        compteRepository.saveAndFlush(compte2);
         Mouvement mouvement = new Mouvement();
-        mouvement.setCompteId(compte.getId());
+        mouvement.setCompteId(compte2.getId());
         mouvement.setSomme(new BigDecimal(10000));
         mouvement.setTypeMouvement(TypeMouvementEnum.RETRAIT);
         mouvementService.saveMouvement(mouvement);
         List<Mouvement> listMouvementAfterSave = mouvementService.findAllMouvementByCompte(456);
         Mouvement mouvementtSaved = mouvementService.getMouvementById(listMouvementAfterSave.get(listMouvementAfterSave.size() - 1).getId());
-        assertThat(mouvementtSaved.getCompteId(), is(1L));
+        assertThat(mouvementtSaved.getCompteId(), is(compte2.getId()));
         assertThat(mouvementtSaved.getSomme(), is(new BigDecimal(10000)));
     }
 
     @Test
     public void findAllMouvementTest() throws Exception {
         int sizeListMouvementBeforeSave = mouvementService.findAllMouvementByCompte(456).size();
-        Compte compte = new Compte();
-        compte.setNumCompte(521);
-        compteRepository.saveAndFlush(compte);
+        Compte compte3 = new Compte();
+        compte3.setNumCompte(521);
+        compteRepository.saveAndFlush(compte3);
         Mouvement mouvement = new Mouvement();
-        mouvement.setCompteId(compte.getId());
+        mouvement.setCompteId(compte3.getId());
         mouvement.setSomme(new BigDecimal(1000));
         mouvement.setTypeMouvement(TypeMouvementEnum.RETRAIT);
 
@@ -99,12 +99,12 @@ public class MouvementServiceTest {
 
     @Test
     public void deleteMouvementTest() throws Exception {
-        Compte compte = new Compte();
-        compte.setNumCompte(214);
-        compteRepository.saveAndFlush(compte);
+        Compte compte4 = new Compte();
+        compte4.setNumCompte(214);
+        compteRepository.saveAndFlush(compte4);
         int sizeListMouvementBeforeDelete = mouvementService.findAllMouvementByCompte(214).size();
         Mouvement mouvement = new Mouvement();
-        mouvement.setCompteId(compte.getId());
+        mouvement.setCompteId(compte4.getId());
         mouvement.setSomme(new BigDecimal(1000));
         mouvement.setTypeMouvement(TypeMouvementEnum.RETRAIT);
         mouvementService.saveMouvement(mouvement);

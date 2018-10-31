@@ -6,7 +6,7 @@ import com.axeane.domain.Views;
 import com.axeane.domain.util.ResponseUtil;
 import com.axeane.service.ClientService;
 import com.axeane.service.business.ExtraitCompteBancaireService;
-import com.axeane.service.business.SendExtratMailJetService;
+import com.axeane.service.business.SendExtraitMailJetService;
 import com.axeane.web.util.HeaderUtil;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.mailjet.client.errors.MailjetException;
@@ -33,13 +33,13 @@ public class ClientResource {
 
     private final ClientService clientService;
     private final ExtraitCompteBancaireService extraitCompteBancaireService;
-    private final SendExtratMailJetService sendExtratMailJetService;
+    private final SendExtraitMailJetService sendExtraitMailJetService;
 
-    public ClientResource(ClientService clientService, ExtraitCompteBancaireService extraitCompteBancaireService, SendExtratMailJetService sendExtratMailJetService) {
+    public ClientResource(ClientService clientService, ExtraitCompteBancaireService extraitCompteBancaireService, SendExtraitMailJetService sendExtraitMailJetService) {
         this.clientService = clientService;
 
         this.extraitCompteBancaireService = extraitCompteBancaireService;
-        this.sendExtratMailJetService = sendExtratMailJetService;
+        this.sendExtraitMailJetService = sendExtraitMailJetService;
     }
 
     @PostMapping
@@ -123,6 +123,6 @@ public class ClientResource {
 
     @PostMapping("/sendMail")
     public void sendMail(Mail mail) throws MailjetSocketTimeoutException, MailjetException {
-        sendExtratMailJetService.sendExtrait(mail);
+        sendExtraitMailJetService.sendExtrait(mail);
     }
 }

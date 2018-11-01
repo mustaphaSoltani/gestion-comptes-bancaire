@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @SpringBootApplication
 @EnableJpaRepositories
 @EnableTransactionManagement
+@EnableConfigurationProperties
 public class GestionCompteBancaireApplication {
 
     public static void main(String[] args) {

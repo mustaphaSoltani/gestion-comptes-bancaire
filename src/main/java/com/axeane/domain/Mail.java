@@ -25,6 +25,14 @@ public class Mail { // nom non adapté
     @NotNull
     private String email;
 
+    public Mail(@NotNull @Size(max = 20) String titre, @Size(max = 20) String objet, @Size(max = 20) String message, String text, @NotNull String urlFile, @NotNull String email) {
+        this.titre = titre;
+        this.objet = objet;
+        this.message = message;
+        this.text = text;
+        this.urlFile = urlFile;
+        this.email = email;
+    }
     public String getTitre() {
         return titre;
     }

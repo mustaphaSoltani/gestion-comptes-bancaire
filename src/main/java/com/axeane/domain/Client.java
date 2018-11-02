@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonView;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Null;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.HashSet;
@@ -57,6 +56,9 @@ public class Client implements Serializable {
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "client", cascade = CascadeType.ALL)
     @JsonView(value = {Views.ClientView.class})
     private Set<Compte> comptes = new HashSet<>();
+
+    public Client() {
+    }
 
     public static long getSerialVersionUID() {
         return serialVersionUID;

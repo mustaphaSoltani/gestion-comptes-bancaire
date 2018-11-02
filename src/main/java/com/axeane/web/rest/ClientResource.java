@@ -116,13 +116,13 @@ public class ClientResource {
     }
 
     @GetMapping("/extraitBancairepdf/{numC}")
-    public  void entreprisesPdf(HttpServletResponse response,@PathVariable Integer numC) {
+    public void entreprisesPdf(HttpServletResponse response, @PathVariable Integer numC) {
         log.debug("REST request to Extrait file pdf : {}");
-        extraitCompteBancaireService.exportextraitBancaireToPdf(response,numC);
+        extraitCompteBancaireService.exportextraitBancaireToPdf(response, numC);
     }
 
     @PostMapping("/sendMail")
-    public void sendMail(Mail mail) throws MailjetSocketTimeoutException, MailjetException {
+    public void sendMail(@RequestBody Mail mail) throws MailjetSocketTimeoutException, MailjetException {
         mailExtraitService.sendExtrait(mail);
     }
 }

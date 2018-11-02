@@ -66,15 +66,15 @@ public class ExtraitCompteBancaireService {
                 }
                 mouvementModels.add(detailsModel);
             }
-            //JRDataSource jrDataSource = new JRBeanCollectionDataSource(mouvementModels);
-            JRDataSource jrDataSource = new JREmptyDataSource();
+            JRDataSource jrDataSource = new JRBeanCollectionDataSource(mouvementModels);
+            //JRDataSource jrDataSource = new JREmptyDataSource();
             parametreMap.put("numCompte", numCompte);
             parametreMap.put("nom", client.getNom());
             parametreMap.put("prenom", client.getPrenom());
             parametreMap.put("adresse", client.getAdresse());
             parametreMap.put("email", client.getEmail());
             parametreMap.put("solde", solde);
-            //parametreMap.put("datasource", jrDataSource);
+            parametreMap.put("datasource", jrDataSource);
 
             JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parametreMap, jrDataSource);
 

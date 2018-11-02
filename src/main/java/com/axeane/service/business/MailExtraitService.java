@@ -15,30 +15,30 @@ import org.springframework.stereotype.Service;
 @Service
 public class MailExtraitService {
 
-    public void sendExtrait(Mail sendmail) throws MailjetException, MailjetSocketTimeoutException {
+    public void sendExtrait(Mail mail) throws MailjetException, MailjetSocketTimeoutException {
         MailjetClient client;
         MailjetRequest email;
         MailjetResponse response;
 
-        // Note how we set the version to v3.1 using ClientOptions
-        client = new MailjetClient("7cae7a30ba4e268aaaf3249232d1c628\n", "17d797b2133762f8f4a93fa474d6ab83\n", new ClientOptions("v3.1"));
+// Note how we set the version to v3.1 using ClientOptions
+        client = new MailjetClient("cbaf40b17a7417bce03a5df70a163043","59bd260cb89b775dec4ea67d2287b831", new ClientOptions("v3.1"));
 
         JSONObject message = new JSONObject();
         message.put(Emailv31.Message.FROM, new JSONObject()
-                .put(Emailv31.Message.EMAIL, "mustaphasoltani@gmail.com")
-                .put(Emailv31.Message.NAME, sendmail.getTitre())
+                .put(Emailv31.Message.EMAIL, "komptacloud@psyscertifies.com")
+                .put(Emailv31.Message.NAME, mail.getTitre())
         )
-                .put(Emailv31.Message.SUBJECT, sendmail.getObjet())
-                .put(Emailv31.Message.TEXTPART, sendmail.getMessage())
-                .put(Emailv31.Message.HTMLPART, sendmail.getText())
+                .put(Emailv31.Message.SUBJECT, mail.getObjet())
+                .put(Emailv31.Message.TEXTPART, mail.getText())
+                .put(Emailv31.Message.HTMLPART, mail.getText())
                 .put(Emailv31.Message.ATTACHMENTS, new JSONArray()
                         .put(new JSONObject()
                                 .put("ContentType", "pdf/plain")
-                                .put("Filename", sendmail.getUrlFile())
+                                .put("Filename", mail.getUrlFile())
                                 .put("Base64Content", "VGhpcyBpcyB5b3VyIGF0dGFjaGVkIGZpbGUhISEK")))
                 .put(Emailv31.Message.TO, new JSONArray()
                         .put(new JSONObject()
-                                .put(Emailv31.Message.EMAIL, sendmail.getEmail())));
+                                .put(Emailv31.Message.EMAIL, mail.getEmail())));
 
         email = new MailjetRequest(Emailv31.resource).property(Emailv31.MESSAGES, (new JSONArray()).put(message));
 

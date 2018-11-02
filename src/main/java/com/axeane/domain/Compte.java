@@ -46,6 +46,9 @@ public class Compte implements Serializable {
     @JsonView(value = {Views.CompteView.class})
     private Set<Mouvement> mouvements = new HashSet<>();
 
+    public Compte() {
+    }
+
     public static long getSerialVersionUID() {
         return serialVersionUID;
     }

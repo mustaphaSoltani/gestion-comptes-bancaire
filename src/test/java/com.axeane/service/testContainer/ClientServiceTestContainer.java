@@ -19,7 +19,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.testcontainers.containers.PostgreSQLContainer;
-import org.thymeleaf.util.StringUtils;
+import org.testcontainers.shaded.org.apache.commons.lang.StringUtils;
 
 import java.time.Duration;
 import java.util.ArrayList;

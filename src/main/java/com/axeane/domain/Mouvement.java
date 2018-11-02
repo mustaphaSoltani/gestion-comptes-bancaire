@@ -8,7 +8,6 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import javax.validation.constraints.Future;
 import javax.validation.constraints.FutureOrPresent;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
@@ -37,14 +36,15 @@ public class Mouvement implements Serializable {
     @Positive
     @Column(name = "somme")
     @JsonView(value = {Views.MouvementView.class, Views.CompteView.class})
-    private BigDecimal somme;// validation non zero
+    private BigDecimal somme;
 
     @NotNull
+    @FutureOrPresent
     @DateTimeFormat(pattern = "dd/MM/yyyy")
     @Column(name = "date")
     @Temporal(TemporalType.DATE)
     @JsonView(value = {Views.MouvementView.class, Views.CompteView.class})
-    private Date date;// validation not null et non au passé
+    private Date date;
 
     @NotNull
     @Transient
@@ -54,6 +54,9 @@ public class Mouvement implements Serializable {
     @ManyToOne
     @JoinColumn(name = "compte_id")
     private Compte compte;
+
+    public Mouvement() {
+    }
 
     public Long getId() {
         return id;

@@ -1,6 +1,7 @@
 package com.axeane.domain;
 
 import com.axeane.domain.enumuration.TypeMouvementEnum;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonView;
 import org.hibernate.annotations.Cache;
@@ -33,14 +34,13 @@ public class Mouvement implements Serializable {
     @JsonView(value = {Views.MouvementView.class, Views.CompteView.class})
     private TypeMouvementEnum typeMouvement;
 
-    @Positive
     @Column(name = "somme")
     @JsonView(value = {Views.MouvementView.class, Views.CompteView.class})
     private BigDecimal somme;
 
-    @NotNull
     @FutureOrPresent
-    @DateTimeFormat(pattern = "dd/MM/yyyy")
+    @NotNull
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd")
     @Column(name = "date")
     @Temporal(TemporalType.DATE)
     @JsonView(value = {Views.MouvementView.class, Views.CompteView.class})

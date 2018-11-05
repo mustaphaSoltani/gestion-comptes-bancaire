@@ -9,15 +9,25 @@ public class MouvementModel {
     private BigDecimal somme;
     private Date date;
     private TypeMouvementEnum typeMouvement;
+    private BigDecimal solde;
 
-    public MouvementModel(BigDecimal somme, Date date, TypeMouvementEnum typeMouvement) {
+    public MouvementModel(BigDecimal somme, Date date, TypeMouvementEnum typeMouvement, BigDecimal solde) {
         this.somme = somme;
         this.date = date;
         this.typeMouvement = typeMouvement;
+        this.solde = solde;
     }
 
     public MouvementModel() {
 
+    }
+
+    public BigDecimal getSolde() {
+        return solde;
+    }
+
+    public void setSolde(BigDecimal solde) {
+        this.solde = solde;
     }
 
     public TypeMouvementEnum getTypeMouvement() {

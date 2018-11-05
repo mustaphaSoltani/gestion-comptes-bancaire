@@ -3,7 +3,6 @@ package com.axeane.service.business;
 import com.axeane.domain.Client;
 import com.axeane.domain.Mouvement;
 import com.axeane.models.MouvementModel;
-import com.axeane.repository.CompteRepository;
 import com.axeane.service.ClientService;
 import com.axeane.service.MouvementService;
 import com.axeane.web.rest.ClientResource;
@@ -20,7 +19,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class ExtraitCompteBancaireService {
@@ -36,7 +38,7 @@ public class ExtraitCompteBancaireService {
 
     public void exportextraitBancaireToPdf(HttpServletResponse response, Integer numCompte) {
         try {
-            InputStream inputStream = getClass().getResourceAsStream("/reports/extrait_bancaire.jrxml");
+            InputStream inputStream = getClass().getResourceAsStream("/reports/extrait.jrxml");
             JasperDesign jasperDesign = JRXmlLoader.load(inputStream);
             JasperReport jasperReport = JasperCompileManager.compileReport(jasperDesign);
             Map<String, Object> parametreMap = new HashMap<>();
@@ -46,34 +48,36 @@ public class ExtraitCompteBancaireService {
             List<Mouvement> mouvements = mouvementService.findAllMouvementByCompte(numCompte);
 
             List<MouvementModel> mouvementModels = new ArrayList<>();
-            BigDecimal solde = mouvements.iterator().next().getCompte().getSolde();
-            for (Mouvement detailsMouvement : mouvements) {
+            for (Mouvement detailsMouvement : mouvementService.findAllMouvementByCompte(numCompte)) {
                 MouvementModel detailsModel = new MouvementModel();
                 detailsModel.setDate(detailsMouvement.getDate());
                 detailsModel.setSomme(detailsMouvement.getSomme());
                 detailsModel.setTypeMouvement(detailsMouvement.getTypeMouvement());
                 BigDecimal resultSolde = BigDecimal.ZERO;
-                switch (detailsMouvement.getTypeMouvement().toString()) {
-                    case "RETRAIT":
-                        resultSolde = solde.add(detailsMouvement.getSomme());
-                        break;
-                    case "VERSEMENT":
-                        resultSolde = solde.add(detailsMouvement.getSomme());
-                        break;
-                    case "VIREMENT":
-                        resultSolde = solde.add(detailsMouvement.getSomme());
-                        break;
+                BigDecimal solde = mouvements.iterator().next().getCompte().getSolde();
+                for (int i = 0; i < mouvements.size(); i++) {
+                    switch (detailsMouvement.getTypeMouvement().toString()) {
+                        case "RETRAIT":
+                            resultSolde = solde.subtract(detailsMouvement.getSomme());
+                            break;
+                        case "VERSEMENT":
+                            resultSolde = solde.add(detailsMouvement.getSomme());
+                            break;
+                        case "VIREMENT":
+                            resultSolde = solde.add(detailsMouvement.getSomme());
+                            break;
+                    }
+                    solde=resultSolde;
                 }
+                detailsModel.setSolde(solde);
                 mouvementModels.add(detailsModel);
             }
             JRDataSource jrDataSource = new JRBeanCollectionDataSource(mouvementModels);
-            //JRDataSource jrDataSource = new JREmptyDataSource();
             parametreMap.put("numCompte", numCompte);
             parametreMap.put("nom", client.getNom());
             parametreMap.put("prenom", client.getPrenom());
             parametreMap.put("adresse", client.getAdresse());
             parametreMap.put("email", client.getEmail());
-            parametreMap.put("solde", solde);
             parametreMap.put("datasource", jrDataSource);
 
             JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parametreMap, jrDataSource);

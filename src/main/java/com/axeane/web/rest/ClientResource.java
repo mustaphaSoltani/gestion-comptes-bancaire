@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -122,7 +123,7 @@ public class ClientResource {
     }
 
     @PostMapping("/sendMail")
-    public void sendMail(@RequestBody Mail mail) throws MailjetSocketTimeoutException, MailjetException {
+    public void sendMail(@RequestBody Mail mail) throws MailjetSocketTimeoutException, MailjetException, IOException {
         mailExtraitService.sendExtrait(mail);
     }
 }

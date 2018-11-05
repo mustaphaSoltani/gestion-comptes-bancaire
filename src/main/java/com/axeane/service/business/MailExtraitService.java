@@ -12,16 +12,17 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+
 @Service
 public class MailExtraitService {
 
-    public void sendExtrait(Mail mail) throws MailjetException, MailjetSocketTimeoutException {
+    public void sendExtrait(Mail mail) throws MailjetException, MailjetSocketTimeoutException, IOException {
         MailjetClient client;
         MailjetRequest email;
         MailjetResponse response;
 
-// Note how we set the version to v3.1 using ClientOptions
-        client = new MailjetClient("cbaf40b17a7417bce03a5df70a163043","59bd260cb89b775dec4ea67d2287b831", new ClientOptions("v3.1"));
+        client = new MailjetClient("cbaf40b17a7417bce03a5df70a163043", "59bd260cb89b775dec4ea67d2287b831", new ClientOptions("v3.1"));
 
         JSONObject message = new JSONObject();
         message.put(Emailv31.Message.FROM, new JSONObject()
@@ -33,7 +34,7 @@ public class MailExtraitService {
                 .put(Emailv31.Message.HTMLPART, mail.getText())
                 .put(Emailv31.Message.ATTACHMENTS, new JSONArray()
                         .put(new JSONObject()
-                                .put("ContentType", "pdf/plain")
+                                .put("ContentType", "application/x-pdf")
                                 .put("Filename", mail.getUrlFile())
                                 .put("Base64Content", "VGhpcyBpcyB5b3VyIGF0dGFjaGVkIGZpbGUhISEK")))
                 .put(Emailv31.Message.TO, new JSONArray()

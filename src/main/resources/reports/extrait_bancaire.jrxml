@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="geFacture" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="10bcaa53-acb3-4416-9ab9-9141736b73d6">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="getExtrait" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="10bcaa53-acb3-4416-9ab9-9141736b73d6">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
@@ -8,10 +8,9 @@
 	<parameter name="prenom" class="java.lang.String"/>
 	<parameter name="adresse" class="java.lang.String"/>
 	<parameter name="email" class="java.lang.String"/>
-	<field name="date" class="java.util.Date"/>
-	<field name="typeMouvement" class="java.lang.String"/>
-	<field name="somme" class="java.math.BigDecimal"/>
-	<field name="solde" class="java.math.BigDecimal"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -43,26 +42,6 @@
 				<reportElement x="275" y="161" width="100" height="20" uuid="c8b099d7-eda3-4f62-b570-502024c60cc3"/>
 				<text><![CDATA[Email]]></text>
 			</staticText>
-			<textField>
-				<reportElement x="377" y="101" width="56" height="20" uuid="9145c574-d585-482a-af05-30b4eb3a4637"/>
-				<textFieldExpression><![CDATA[$P{nom}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="375" y="121" width="100" height="20" uuid="86e2fb48-bc47-41e7-936f-8f87c8bf3dbd"/>
-				<textFieldExpression><![CDATA[$P{adresse}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="377" y="141" width="100" height="20" uuid="14da2516-91d6-4134-b7c6-3768fddc8115"/>
-				<textFieldExpression><![CDATA[$P{numCompte}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="377" y="161" width="100" height="20" uuid="970ae564-3996-4f37-9952-ee5ed6362734"/>
-				<textFieldExpression><![CDATA[$P{email}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="433" y="101" width="56" height="20" uuid="3619e147-3674-4475-9f8d-118d407c606e"/>
-				<textFieldExpression><![CDATA[$P{prenom}]]></textFieldExpression>
-			</textField>
 		</band>
 	</title>
 	<pageHeader>
@@ -146,7 +125,18 @@
 	<detail>
 		<band height="19" splitType="Stretch">
 			<textField>
-				<reportElement x="158" y="0" width="165" height="19" uuid="1289ae18-e3f1-4ea3-ac03-fe461349a507"/>
+				<reportElement x="0" y="0" width="158" height="19" uuid="669b7732-be4d-48f6-97ce-512dc8ccedbe"/>
+				<box>
+					<pen lineColor="#CCCCCC"/>
+					<topPen lineWidth="0.0" lineColor="#CCCCCC"/>
+					<leftPen lineWidth="0.5" lineColor="#CCCCCC"/>
+					<bottomPen lineWidth="0.5" lineColor="#CCCCCC"/>
+					<rightPen lineWidth="0.5" lineColor="#CCCCCC"/>
+				</box>
+				<textFieldExpression><![CDATA[$F{date}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="158" y="0" width="153" height="19" uuid="1289ae18-e3f1-4ea3-ac03-fe461349a507"/>
 				<box>
 					<pen lineColor="#CCCCCC"/>
 					<topPen lineWidth="0.0" lineColor="#CCCCCC"/>
@@ -158,7 +148,7 @@
 				<textFieldExpression><![CDATA[$F{typeMouvement}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="323" y="0" width="121" height="19" uuid="666829ca-c45d-4b19-aef3-d16e6e91492e"/>
+				<reportElement x="311" y="0" width="133" height="19" uuid="666829ca-c45d-4b19-aef3-d16e6e91492e"/>
 				<box>
 					<pen lineColor="#CCCCCC"/>
 					<topPen lineWidth="0.0" lineColor="#CCCCCC"/>
@@ -170,7 +160,7 @@
 				<textFieldExpression><![CDATA[$F{somme}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="448" y="0" width="107" height="19" uuid="72b70455-27d2-41a2-a0c8-e07003c5da3a"/>
+				<reportElement x="444" y="0" width="111" height="19" uuid="72b70455-27d2-41a2-a0c8-e07003c5da3a"/>
 				<box>
 					<pen lineColor="#CCCCCC"/>
 					<topPen lineWidth="0.0" lineColor="#CCCCCC"/>
@@ -181,39 +171,10 @@
 				<textElement textAlignment="Center"/>
 				<textFieldExpression><![CDATA[$F{solde}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement x="0" y="0" width="158" height="19" uuid="669b7732-be4d-48f6-97ce-512dc8ccedbe"/>
-				<box>
-					<pen lineColor="#CCCCCC"/>
-					<topPen lineWidth="0.0" lineColor="#CCCCCC"/>
-					<leftPen lineWidth="0.5" lineColor="#CCCCCC"/>
-					<bottomPen lineWidth="0.5" lineColor="#CCCCCC"/>
-					<rightPen lineWidth="0.5" lineColor="#CCCCCC"/>
-				</box>
-				<textFieldExpression><![CDATA[$F{date}]]></textFieldExpression>
-			</textField>
 		</band>
 	</detail>
 	<pageFooter>
-		<band height="110" splitType="Stretch">
-			<textField>
-				<reportElement x="429" y="90" width="80" height="20" uuid="15be2ad0-4e46-4f8e-b1d5-52ccad963278"/>
-				<textElement textAlignment="Right">
-					<font size="8"/>
-				</textElement>
-				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
-			</textField>
-			<textField evaluationTime="Report">
-				<reportElement x="511" y="90" width="40" height="20" uuid="cd66de3f-9367-4e31-b561-bfef437fc29b"/>
-				<textElement>
-					<font size="8"/>
-				</textElement>
-				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
-			</textField>
-			<line>
-				<reportElement x="0" y="0" width="555" height="1" uuid="637d6751-188b-4759-8d45-67f7d134ac16"/>
-			</line>
-		</band>
+		<band height="110" splitType="Stretch"/>
 	</pageFooter>
 	<summary>
 		<band height="201">

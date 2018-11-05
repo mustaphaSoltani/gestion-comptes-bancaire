@@ -14,10 +14,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -36,61 +35,55 @@ public class ExtraitCompteBancaireService {
         this.mouvementService = mouvementService;
     }
 
-    public void exportextraitBancaireToPdf(HttpServletResponse response, Integer numCompte) {
-        try {
-            InputStream inputStream = getClass().getResourceAsStream("/reports/extrait.jrxml");
-            JasperDesign jasperDesign = JRXmlLoader.load(inputStream);
-            JasperReport jasperReport = JasperCompileManager.compileReport(jasperDesign);
-            Map<String, Object> parametreMap = new HashMap<>();
+    public ByteArrayInputStream exportextraitBancaireToPdf(Integer numCompte) throws JRException {
 
-            Client client = clientService.getClientBynNumCompte(numCompte);
+        InputStream inputStream = getClass().getResourceAsStream("/reports/extrait.jrxml");
+        JasperDesign jasperDesign = JRXmlLoader.load(inputStream);
+        JasperReport jasperReport = JasperCompileManager.compileReport(jasperDesign);
+        Map<String, Object> parametreMap = new HashMap<>();
 
-            List<Mouvement> mouvements = mouvementService.findAllMouvementByCompte(numCompte);
+        Client client = clientService.getClientBynNumCompte(numCompte);
 
-            List<MouvementModel> mouvementModels = new ArrayList<>();
-            for (Mouvement detailsMouvement : mouvementService.findAllMouvementByCompte(numCompte)) {
-                MouvementModel detailsModel = new MouvementModel();
-                detailsModel.setDate(detailsMouvement.getDate());
-                detailsModel.setSomme(detailsMouvement.getSomme());
-                detailsModel.setTypeMouvement(detailsMouvement.getTypeMouvement());
-                BigDecimal resultSolde = BigDecimal.ZERO;
-                BigDecimal solde = mouvements.iterator().next().getCompte().getSolde();
-                for (int i = 0; i < mouvements.size(); i++) {
-                    switch (detailsMouvement.getTypeMouvement().toString()) {
-                        case "RETRAIT":
-                            resultSolde = solde.subtract(detailsMouvement.getSomme());
-                            break;
-                        case "VERSEMENT":
-                            resultSolde = solde.add(detailsMouvement.getSomme());
-                            break;
-                        case "VIREMENT":
-                            resultSolde = solde.add(detailsMouvement.getSomme());
-                            break;
-                    }
-                    solde=resultSolde;
-                }
-                detailsModel.setSolde(solde);
-                mouvementModels.add(detailsModel);
+        List<Mouvement> mouvements = mouvementService.findAllMouvementByCompte(numCompte);
+        BigDecimal solde = mouvements.iterator().next().getCompte().getSolde();
+        List<MouvementModel> mouvementModels = new ArrayList<>();
+        for (Mouvement detailsMouvement : mouvementService.findAllMouvementByCompte(numCompte)) {
+            MouvementModel detailsModel = new MouvementModel();
+            detailsModel.setDate(detailsMouvement.getDate());
+            detailsModel.setSomme(detailsMouvement.getSomme());
+            detailsModel.setTypeMouvement(detailsMouvement.getTypeMouvement());
+            BigDecimal resultSolde = BigDecimal.ZERO;
+
+            switch (detailsMouvement.getTypeMouvement().toString()) {
+                case "RETRAIT":
+                    resultSolde = solde.subtract(detailsMouvement.getSomme());
+                    solde = resultSolde;
+                    break;
+                case "VERSEMENT":
+                    resultSolde = solde.add(detailsMouvement.getSomme());
+                    solde = resultSolde;
+                    break;
+                case "VIREMENT":
+                    resultSolde = solde.add(detailsMouvement.getSomme());
+                    solde = resultSolde;
+                    break;
             }
-            JRDataSource jrDataSource = new JRBeanCollectionDataSource(mouvementModels);
-            parametreMap.put("numCompte", numCompte);
-            parametreMap.put("nom", client.getNom());
-            parametreMap.put("prenom", client.getPrenom());
-            parametreMap.put("adresse", client.getAdresse());
-            parametreMap.put("email", client.getEmail());
-            parametreMap.put("datasource", jrDataSource);
-
-            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parametreMap, jrDataSource);
-
-            response.setContentType("application/pdf");
-            response.setHeader("Content-disposition", "attachment; filename=report.pdf");
-            final OutputStream outputStream = response.getOutputStream();
-            JasperExportManager.exportReportToPdfStream(jasperPrint, outputStream);
-        } catch (JRException ex) {
-            log.info("file extrait_bancaire.jrxml exception");
-        } catch (IOException ex) {
-            log.info("extraitBancairePdf IOException");
+            detailsModel.setSolde(solde);
+            mouvementModels.add(detailsModel);
         }
+        JRDataSource jrDataSource = new JRBeanCollectionDataSource(mouvementModels);
+        parametreMap.put("numCompte", numCompte);
+        parametreMap.put("nom", client.getNom());
+        parametreMap.put("prenom", client.getPrenom());
+        parametreMap.put("adresse", client.getAdresse());
+        parametreMap.put("email", client.getEmail());
+        parametreMap.put("datasource", jrDataSource);
 
+        JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parametreMap, jrDataSource);
+        byte[] bytes;
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        JasperExportManager.exportReportToPdfStream(jasperPrint, byteArrayOutputStream);
+        bytes = byteArrayOutputStream.toByteArray();
+        return new ByteArrayInputStream(bytes);
     }
 }

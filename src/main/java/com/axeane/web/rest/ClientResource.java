@@ -11,6 +11,10 @@ import com.axeane.web.util.HeaderUtil;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.mailjet.client.errors.MailjetException;
 import com.mailjet.client.errors.MailjetSocketTimeoutException;
+import com.mailjet.client.resource.Contact;
+import net.sf.jasperreports.engine.JRException;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -19,7 +23,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -117,13 +123,33 @@ public class ClientResource {
     }
 
     @GetMapping("/extraitBancairepdf/{numC}")
-    public void entreprisesPdf(HttpServletResponse response, @PathVariable Integer numC) {
+    public void entreprisesPdf(HttpServletResponse response, @PathVariable Integer numC) throws JRException, IOException {
         log.debug("REST request to Extrait file pdf : {}");
-        extraitCompteBancaireService.exportextraitBancaireToPdf(response, numC);
+        ByteArrayInputStream byteArrayInputStream=extraitCompteBancaireService.exportextraitBancaireToPdf(numC);
+        OutputStream os = response.getOutputStream();
+
+        response.setContentType("application/pdf; name=\"MyFile.pdf\"");
+        response.setStatus(HttpServletResponse.SC_OK);
+        response.setHeader("Cache-Control", "private, must-revalidate, post-check=0, pre-check=0, max-age=1");
+        response.setHeader("Pragma", "public");
+        response.setHeader("Content-Disposition", "attachment; filename=\"file_from_server.pdf\"");
+        byte[] pdfAsStream = new byte[byteArrayInputStream.available()];
+        byteArrayInputStream.read(pdfAsStream);
+        os.write(pdfAsStream);
+        os.close();
     }
 
-    @PostMapping("/sendMail")
-    public void sendMail(@RequestBody Mail mail) throws MailjetSocketTimeoutException, MailjetException, IOException {
-        mailExtraitService.sendExtrait(mail);
+    @PostMapping("/sendMail/{numCompte}")
+    public void sendByMail(@PathVariable("numCompte") int numCompte) throws Exception {
+        ByteArrayInputStream byteArrayInputStream = extraitCompteBancaireService.exportextraitBancaireToPdf(numCompte);
+        String destinations="khoitmiahassen@gmail.com;mustaphasoltani@gmail.com";
+        String[] des = destinations.split(";");
+        JSONArray recipients = new JSONArray();
+        for (int i= 0; i< des.length; i++){
+            recipients.put(new JSONObject().put(Contact.EMAIL, des[i]));
+        }
+        mailExtraitService.sendEmailWithMailJet(recipients, "extrait", "extrait",false,
+                true, true, byteArrayInputStream );
     }
+
 }

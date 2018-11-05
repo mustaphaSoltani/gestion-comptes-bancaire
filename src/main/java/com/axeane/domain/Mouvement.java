@@ -6,7 +6,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonView;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.FutureOrPresent;
@@ -34,13 +33,14 @@ public class Mouvement implements Serializable {
     @JsonView(value = {Views.MouvementView.class, Views.CompteView.class})
     private TypeMouvementEnum typeMouvement;
 
+    @Positive
     @Column(name = "somme")
     @JsonView(value = {Views.MouvementView.class, Views.CompteView.class})
     private BigDecimal somme;
 
     @FutureOrPresent
     @NotNull
-    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     @Column(name = "date")
     @Temporal(TemporalType.DATE)
     @JsonView(value = {Views.MouvementView.class, Views.CompteView.class})

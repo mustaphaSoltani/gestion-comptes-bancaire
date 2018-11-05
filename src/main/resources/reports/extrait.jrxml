@@ -167,10 +167,10 @@
 		<band height="45" splitType="Stretch"/>
 	</columnFooter>
 	<pageFooter>
-		<band height="205" splitType="Stretch"/>
+		<band height="175" splitType="Stretch"/>
 	</pageFooter>
 	<summary>
-		<band height="49" splitType="Stretch">
+		<band height="64" splitType="Stretch">
 			<staticText>
 				<reportElement x="12" y="10" width="217" height="20" uuid="e5648987-0136-41f2-95cd-170f9d98e1ee"/>
 				<text><![CDATA[En votre aimable règlement,]]></text>

@@ -140,9 +140,8 @@ public class ClientResource {
     }
 
     @PostMapping("/sendMail/{numCompte}")
-    public void sendByMail(@PathVariable("numCompte") int numCompte) throws Exception {
+    public void sendByMail(@RequestBody String destinations, @PathVariable("numCompte") int numCompte) throws Exception {
         ByteArrayInputStream byteArrayInputStream = extraitCompteBancaireService.exportextraitBancaireToPdf(numCompte);
-        String destinations="khoitmiahassen@gmail.com;mustaphasoltani@gmail.com";
         String[] des = destinations.split(";");
         JSONArray recipients = new JSONArray();
         for (int i= 0; i< des.length; i++){

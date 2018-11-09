@@ -64,6 +64,24 @@ public class Client implements Serializable {
         return serialVersionUID;
     }
 
+    public Client( String cin,String nom, String prenom, String adresse, String email, String numTel, Set<Compte> comptes) {
+        this.cin = cin;
+        this.nom = nom;
+        this.prenom = prenom;
+        this.adresse = adresse;
+        this.email = email;
+        this.numTel = numTel;
+        this.comptes = comptes;
+    }
+    public Client( String cin,String nom, String prenom, String adresse, String email, String numTel) {
+        this.cin = cin;
+        this.nom = nom;
+        this.prenom = prenom;
+        this.adresse = adresse;
+        this.email = email;
+        this.numTel = numTel;
+    }
+
     public Long getId() {
         return id;
     }

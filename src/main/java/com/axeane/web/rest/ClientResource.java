@@ -144,11 +144,10 @@ public class ClientResource {
         ByteArrayInputStream byteArrayInputStream = extraitCompteBancaireService.exportextraitBancaireToPdf(numCompte);
         String[] des = destinations.split(";");
         JSONArray recipients = new JSONArray();
-        for (int i= 0; i< des.length; i++){
-            recipients.put(new JSONObject().put(Contact.EMAIL, des[i]));
+        for (String de : des) {
+            recipients.put(new JSONObject().put(Contact.EMAIL, de));
         }
         mailExtraitService.sendEmailWithMailJet(recipients, "extrait", "extrait",false,
                 true, true, byteArrayInputStream );
     }
-
 }
